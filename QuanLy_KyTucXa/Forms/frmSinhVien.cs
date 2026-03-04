@@ -18,7 +18,7 @@ namespace QuanLy_KyTucXa.Forms
         public frmSinhVien()
         {
             InitializeComponent();
-            mssvDangNhap = mssv;
+            
         }
 
         private void frmSinhVien_Load(object sender, EventArgs e)

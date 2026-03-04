@@ -158,7 +158,7 @@
             groupBox2.Size = new Size(1317, 554);
             groupBox2.TabIndex = 5;
             groupBox2.TabStop = false;
-            groupBox2.Text = "Danh sách hãng sản xuất";
+            groupBox2.Text = "Danh sách sinh viên";
             // 
             // groupBox1
             // 
