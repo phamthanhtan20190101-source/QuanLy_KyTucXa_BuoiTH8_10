@@ -15,9 +15,10 @@ namespace QuanLy_KyTucXa.Forms
     {
         QLKTXDbContext context = new QLKTXDbContext();
 
-        // 2. Các biến trạng thái
-        bool xuLyThem = false; // Cờ kiểm tra: True = Đang thêm, False = Đang sửa
-        string currentMSSV = ""; // Lưu MSSV đang chọn để xử lý
+        // Các biến trạng thái
+        bool xuLyThem = false;
+        string currentMSSV = "";
+
         public frmThemSinhVien()
         {
             InitializeComponent();
@@ -25,11 +26,9 @@ namespace QuanLy_KyTucXa.Forms
 
         private void BatTatChucNang(bool giaTri)
         {
-            // Nhóm 1: Các nút thao tác dữ liệu (Lưu/Hủy) và ô nhập liệu -> Bật khi đang Thêm/Sửa
             btnLuu.Enabled = giaTri;
             btnHuyBo.Enabled = giaTri;
 
-            // Các ô nhập liệu
             txtmssv.Enabled = giaTri;
             txthoten.Enabled = giaTri;
             txtlop.Enabled = giaTri;
@@ -40,7 +39,6 @@ namespace QuanLy_KyTucXa.Forms
             datengaysinh.Enabled = giaTri;
             datengayvao.Enabled = giaTri;
 
-            // Nhóm 2: Các nút chức năng chính (Thêm/Sửa/Xóa) -> Ẩn khi đang nhập liệu
             btnThem.Enabled = !giaTri;
             btnSua.Enabled = !giaTri;
             btnXoa.Enabled = !giaTri;
@@ -48,9 +46,15 @@ namespace QuanLy_KyTucXa.Forms
 
         private void frmThemSinhVien_Load(object sender, EventArgs e)
         {
-            BatTatChucNang(false); // Khóa các ô nhập liệu
-            LoadComboboxPhong();   // Tải danh sách phòng vào ComboBox
-            LoadData();            // Tải danh sách sinh viên lên lưới
+            LoadComboboxPhong(); // Chỉ cần tải danh sách phòng 1 lần khi mở Form
+            ResetForm();         // Gọi hàm Reset để đưa form về trạng thái ban đầu
+        }
+
+        // Tạo riêng hàm ResetForm để load lại lưới và khóa nút mà không cần load lại ComboBox
+        private void ResetForm()
+        {
+            BatTatChucNang(false);
+            LoadData();
         }
 
         private void LoadData()
@@ -58,11 +62,9 @@ namespace QuanLy_KyTucXa.Forms
             try
             {
                 dataGridView.AutoGenerateColumns = false;
-                // Lấy danh sách SV và sắp xếp theo tên
                 List<SinhVien> listSV = context.SinhViens.OrderBy(sv => sv.HoTen).ToList();
                 dataGridView.DataSource = listSV;
 
-                // Ẩn cột quan hệ (Phòng) nếu nó hiện ra gây rối mắt
                 if (dataGridView.Columns["Phong"] != null)
                     dataGridView.Columns["Phong"].Visible = false;
             }
@@ -72,18 +74,32 @@ namespace QuanLy_KyTucXa.Forms
             }
         }
 
-        // Hàm tải danh sách Phòng vào ComboBox để chọn
-        private void LoadComboboxPhong()
+        private void LoadComboboxPhong(string gioiTinh = "")
         {
-            var listPhong = context.Phongs
-         .Select(p => new
-         {
-             p.MaPhong,
+            var query = context.Phongs.AsQueryable();
 
-             TenToaNha = p.ToaNha.TenToaNha
-         })
-         .ToList();
+            // Dùng MaToaNha để lọc vì dữ liệu cột này lưu chính xác là "A", "B", "C", "D"
+            if (gioiTinh == "Nam")
+            {
+                query = query.Where(p => p.ToaNha.MaToaNha == "A" || p.ToaNha.MaToaNha == "C");
+            }
+            else if (gioiTinh == "Nữ")
+            {
+                query = query.Where(p => p.ToaNha.MaToaNha == "B" || p.ToaNha.MaToaNha == "D");
+            }
 
+            var listPhong = query
+                .Select(p => new
+                {
+                    p.MaPhong,
+                    TenToaNha = p.ToaNha.TenToaNha
+                })
+                .ToList();
+
+            // Xóa bộ nhớ đệm cũ trước khi đổ dữ liệu mới
+            cobmaphong.DataSource = null;
+
+            // Đổ dữ liệu đã lọc ra
             cobmaphong.DataSource = listPhong;
             cobmaphong.DisplayMember = "MaPhong";
             cobmaphong.ValueMember = "MaPhong";
@@ -92,38 +108,35 @@ namespace QuanLy_KyTucXa.Forms
 
         private void dataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex >= 0)
-            {
-                DataGridViewRow row = dataGridView.Rows[e.RowIndex];
+            // [ĐÃ SỬA] Chặn ngay lập tức nếu click vào tiêu đề hoặc dòng trống dưới cùng
+            if (e.RowIndex < 0 || dataGridView.Rows[e.RowIndex].IsNewRow)
+                return;
 
-                // Lấy dữ liệu từ dòng click vào gán lên các ô
-                txtmssv.Text = row.Cells["MSSV"].Value.ToString();
-                currentMSSV = txtmssv.Text; // Lưu lại MSSV để dùng cho chức năng Sửa/Xóa
+            DataGridViewRow row = dataGridView.Rows[e.RowIndex];
 
-                txthoten.Text = row.Cells["HoTen"].Value.ToString();
-                txtlop.Text = row.Cells["Lop"].Value?.ToString();
-                txtsdt.Text = row.Cells["SDT"].Value?.ToString();
-                txtquequan.Text = row.Cells["QueQuan"].Value?.ToString();
-                cobgioitinh.Text = row.Cells["GioiTinh"].Value?.ToString();
+            txtmssv.Text = row.Cells["MSSV"].Value?.ToString();
+            currentMSSV = txtmssv.Text;
 
-                // Xử lý ngày tháng (tránh lỗi nếu null)
-                if (row.Cells["NgaySinh"].Value != null)
-                    datengaysinh.Value = Convert.ToDateTime(row.Cells["NgaySinh"].Value);
+            txthoten.Text = row.Cells["HoTen"].Value?.ToString();
+            txtlop.Text = row.Cells["Lop"].Value?.ToString();
+            txtsdt.Text = row.Cells["SDT"].Value?.ToString();
+            txtquequan.Text = row.Cells["QueQuan"].Value?.ToString();
+            cobgioitinh.Text = row.Cells["GioiTinh"].Value?.ToString();
 
-                if (row.Cells["NgayVao"].Value != null)
-                    datengayvao.Value = Convert.ToDateTime(row.Cells["NgayVao"].Value);
+            // [ĐÃ SỬA] Kiểm tra kỹ DBNull.Value để tránh lỗi khi ngày tháng trong SQL bị rỗng
+            if (row.Cells["NgaySinh"].Value != null && row.Cells["NgaySinh"].Value != DBNull.Value)
+                datengaysinh.Value = Convert.ToDateTime(row.Cells["NgaySinh"].Value);
 
-                // Chọn phòng tương ứng trong ComboBox
-                cobmaphong.SelectedValue = row.Cells["MaPhong"].Value?.ToString();
-            }
+            if (row.Cells["NgayVao"].Value != null && row.Cells["NgayVao"].Value != DBNull.Value)
+                datengayvao.Value = Convert.ToDateTime(row.Cells["NgayVao"].Value);
+
+            cobmaphong.SelectedValue = row.Cells["MaPhong"].Value?.ToString();
         }
 
         private void btnThem_Click(object sender, EventArgs e)
         {
-            xuLyThem = true;     // Đặt cờ là Đang Thêm
-            BatTatChucNang(true); // Mở khóa nhập liệu
-
-            // Xóa trắng các ô
+            xuLyThem = true;
+            BatTatChucNang(true);
 
             txtmssv.Clear();
             txthoten.Clear();
@@ -134,7 +147,7 @@ namespace QuanLy_KyTucXa.Forms
             cobmaphong.SelectedIndex = -1;
             datengaysinh.Value = DateTime.Now;
             datengayvao.Value = DateTime.Now;
-            txtmssv.Focus(); // Đặt con trỏ vào ô MSSV
+            txtmssv.Focus();
         }
 
         private void btnSua_Click(object sender, EventArgs e)
@@ -145,11 +158,9 @@ namespace QuanLy_KyTucXa.Forms
                 return;
             }
 
-            xuLyThem = false;    // Đặt cờ là Đang Sửa
+            xuLyThem = false;
             BatTatChucNang(true);
-
-            // Khi sửa, KHÔNG cho phép sửa Mã Sinh Viên (Khóa chính)
-            txtmssv.Enabled = false;
+            txtmssv.Enabled = false; // Không cho sửa khóa chính
         }
 
         private void btnXoa_Click(object sender, EventArgs e)
@@ -164,20 +175,19 @@ namespace QuanLy_KyTucXa.Forms
             {
                 try
                 {
-                    // Tìm sinh viên theo MSSV
                     var sv = context.SinhViens.Find(currentMSSV);
                     if (sv != null)
                     {
-                        context.SinhViens.Remove(sv); // Xóa
-                        context.SaveChanges();        // Lưu vào CSDL
+                        context.SinhViens.Remove(sv);
+                        context.SaveChanges();
 
                         MessageBox.Show("Xóa thành công!");
-                        frmThemSinhVien_Load(sender, e); // Tải lại bảng
+                        ResetForm(); // [ĐÃ SỬA] Dùng hàm ResetForm thay vì Load
                     }
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Không thể xóa (Có thể SV này đang có hóa đơn): " + ex.Message);
+                    MessageBox.Show("Không thể xóa (Có thể SV này đang có dữ liệu liên quan): " + ex.Message);
                 }
             }
         }
@@ -194,9 +204,6 @@ namespace QuanLy_KyTucXa.Forms
             {
                 if (xuLyThem)
                 {
-                    // --- LOGIC THÊM MỚI ---
-
-                    // Kiểm tra trùng mã
                     var checkID = context.SinhViens.Find(txtmssv.Text);
                     if (checkID != null)
                     {
@@ -204,9 +211,8 @@ namespace QuanLy_KyTucXa.Forms
                         return;
                     }
 
-                    // Tạo đối tượng mới
                     SinhVien sv = new SinhVien();
-                    sv.MSSV = txtmssv.Text; // Gán dữ liệu từ form vào đối tượng
+                    sv.MSSV = txtmssv.Text;
                     sv.HoTen = txthoten.Text;
                     sv.Lop = txtlop.Text;
                     sv.SDT = txtsdt.Text;
@@ -216,17 +222,16 @@ namespace QuanLy_KyTucXa.Forms
                     sv.NgayVao = datengayvao.Value;
                     sv.MaPhong = cobmaphong.SelectedValue?.ToString();
 
-                    context.SinhViens.Add(sv); // Thêm vào context
-                    context.SaveChanges();     // Lưu xuống SQL
+                    context.SinhViens.Add(sv);
+                    context.SaveChanges();
                     MessageBox.Show("Thêm mới thành công!");
                 }
                 else
                 {
-                    // --- LOGIC CẬP NHẬT (SỬA) ---
-                    var sv = context.SinhViens.Find(currentMSSV); // Tìm sinh viên cũ
+                    var sv = context.SinhViens.Find(currentMSSV);
                     if (sv != null)
                     {
-                        sv.HoTen = txthoten.Text; // Cập nhật thông tin mới (trừ MSSV)
+                        sv.HoTen = txthoten.Text;
                         sv.Lop = txtlop.Text;
                         sv.SDT = txtsdt.Text;
                         sv.QueQuan = txtquequan.Text;
@@ -241,8 +246,7 @@ namespace QuanLy_KyTucXa.Forms
                     }
                 }
 
-                // Tải lại dữ liệu và reset form
-                frmThemSinhVien_Load(sender, e);
+                ResetForm(); // [ĐÃ SỬA] Dùng hàm ResetForm
             }
             catch (Exception ex)
             {
@@ -252,7 +256,7 @@ namespace QuanLy_KyTucXa.Forms
 
         private void btnHuyBo_Click(object sender, EventArgs e)
         {
-            frmThemSinhVien_Load(sender, e);
+            ResetForm(); // [ĐÃ SỬA] Dùng hàm ResetForm
         }
 
         private void btnThoat_Click(object sender, EventArgs e)
@@ -261,6 +265,14 @@ namespace QuanLy_KyTucXa.Forms
             {
                 this.Close();
             }
+        }
+
+        private void cobgioitinh_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string gioiTinh = cobgioitinh.Text;
+
+            // Gọi hàm load phòng để nó tự động lọc lại theo Nam/Nữ
+            LoadComboboxPhong(gioiTinh);
         }
     }
 }

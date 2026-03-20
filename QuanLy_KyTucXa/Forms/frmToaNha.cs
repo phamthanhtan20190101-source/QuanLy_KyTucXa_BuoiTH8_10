@@ -194,11 +194,11 @@ namespace QuanLy_KyTucXa.Forms
         private void btnLuu_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtMaPhong.Text) ||
-                cobToaNha.SelectedIndex == -1 ||
-                cobLoaiPhong.SelectedIndex == -1)
+                string.IsNullOrWhiteSpace(cobToaNha.Text) ||
+                string.IsNullOrWhiteSpace(cobLoaiPhong.Text))
             {
-                MessageBox.Show("Vui lòng nhập đủ Mã phòng, Tòa nhà và Loại phòng!", "Thiếu thông tin");
-                return;
+                MessageBox.Show("Vui lòng nhập đủ Mã phòng, Tòa nhà và Loại phòng!", "Thiếu thông tin", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return; // Dừng lại không chạy code lưu bên dưới nữa
             }
 
             try
@@ -289,22 +289,83 @@ namespace QuanLy_KyTucXa.Forms
 
         private void dataGridViewToaA_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex >= 0) HienThiThongTinTuGrid(dataGridViewToaA.Rows[e.RowIndex]);
+            // 1. Chặn click vào dòng tiêu đề hoặc dòng trống
+            if (e.RowIndex < 0 || dataGridViewToaA.Rows[e.RowIndex].IsNewRow)
+            {
+                return;
+            }
+
+            // 2. Lấy dữ liệu của dòng vừa click
+            DataGridViewRow row = dataGridViewToaA.Rows[e.RowIndex];
+
+            // 3. Đổ dữ liệu lên các ô nhập liệu
+            // (Lưu ý: Thay các chữ "MaPhong", "GiaPhong", "SoLuong" bằng đúng tên (Name) cột của bạn)
+            txtMaPhong.Text = row.Cells["MaPhongA"].Value?.ToString();
+            txtGiaPhong.Text = row.Cells["GiaA"].Value?.ToString();
+            cobLoaiPhong.Text = row.Cells["SoLuongDangOA"].Value?.ToString();
+
+            // 4. Xử lý ô Tòa Nhà (Vì click vào lưới Tòa A nên ta tự động gán là Tòa A)
+            cobToaNha.Text = "Tòa A";
         }
 
         private void dataGridViewToaB_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex >= 0) HienThiThongTinTuGrid(dataGridViewToaB.Rows[e.RowIndex]);
+            if (e.RowIndex < 0 || dataGridViewToaB.Rows[e.RowIndex].IsNewRow)
+            {
+                return;
+            }
+
+            // 2. Lấy dữ liệu của dòng vừa click
+            DataGridViewRow row = dataGridViewToaB.Rows[e.RowIndex];
+
+            // 3. Đổ dữ liệu lên các ô nhập liệu
+            // (Lưu ý: Thay các chữ "MaPhong", "GiaPhong", "SoLuong" bằng đúng tên (Name) cột của bạn)
+            txtMaPhong.Text = row.Cells["MaPhongB"].Value?.ToString();
+            txtGiaPhong.Text = row.Cells["GiaB"].Value?.ToString();
+            cobLoaiPhong.Text = row.Cells["SoLuongDangOB"].Value?.ToString();
+
+            // 4. Xử lý ô Tòa Nhà (Vì click vào lưới Tòa A nên ta tự động gán là Tòa A)
+            cobToaNha.Text = "Tòa B";
         }
 
         private void dataGridViewToaC_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex >= 0) HienThiThongTinTuGrid(dataGridViewToaC.Rows[e.RowIndex]);
+            if (e.RowIndex < 0 || dataGridViewToaC.Rows[e.RowIndex].IsNewRow)
+            {
+                return;
+            }
+
+            // 2. Lấy dữ liệu của dòng vừa click
+            DataGridViewRow row = dataGridViewToaC.Rows[e.RowIndex];
+
+            // 3. Đổ dữ liệu lên các ô nhập liệu
+            // (Lưu ý: Thay các chữ "MaPhong", "GiaPhong", "SoLuong" bằng đúng tên (Name) cột của bạn)
+            txtMaPhong.Text = row.Cells["MaPhongC"].Value?.ToString();
+            txtGiaPhong.Text = row.Cells["GiaC"].Value?.ToString();
+            cobLoaiPhong.Text = row.Cells["SoLuongDangOC"].Value?.ToString();
+
+            // 4. Xử lý ô Tòa Nhà (Vì click vào lưới Tòa A nên ta tự động gán là Tòa A)
+            cobToaNha.Text = "Tòa C";
         }
 
         private void dataGridViewToaD_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex >= 0) HienThiThongTinTuGrid(dataGridViewToaD.Rows[e.RowIndex]);
+            if (e.RowIndex < 0 || dataGridViewToaD.Rows[e.RowIndex].IsNewRow)
+            {
+                return;
+            }
+
+            // 2. Lấy dữ liệu của dòng vừa click
+            DataGridViewRow row = dataGridViewToaD.Rows[e.RowIndex];
+
+            // 3. Đổ dữ liệu lên các ô nhập liệu
+            // (Lưu ý: Thay các chữ "MaPhong", "GiaPhong", "SoLuong" bằng đúng tên (Name) cột của bạn)
+            txtMaPhong.Text = row.Cells["MaPhongD"].Value?.ToString();
+            txtGiaPhong.Text = row.Cells["GiaD"].Value?.ToString();
+            cobLoaiPhong.Text = row.Cells["SoLuongDangOD"].Value?.ToString();
+
+            // 4. Xử lý ô Tòa Nhà (Vì click vào lưới Tòa A nên ta tự động gán là Tòa A)
+            cobToaNha.Text = "Tòa D";
         }
     }
 

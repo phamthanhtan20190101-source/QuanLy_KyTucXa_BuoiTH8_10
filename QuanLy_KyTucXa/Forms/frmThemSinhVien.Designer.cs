@@ -88,54 +88,63 @@
             // 
             // MSSV
             // 
+            MSSV.DataPropertyName = "MSSV";
             MSSV.HeaderText = "Mã Số Sinh Viên";
             MSSV.MinimumWidth = 8;
             MSSV.Name = "MSSV";
             // 
             // HoTen
             // 
+            HoTen.DataPropertyName = "HoTen";
             HoTen.HeaderText = "Họ Tên";
             HoTen.MinimumWidth = 8;
             HoTen.Name = "HoTen";
             // 
             // Lop
             // 
+            Lop.DataPropertyName = "Lop";
             Lop.HeaderText = "Lớp";
             Lop.MinimumWidth = 8;
             Lop.Name = "Lop";
             // 
             // QueQuan
             // 
+            QueQuan.DataPropertyName = "QueQuan";
             QueQuan.HeaderText = "Quê Quán";
             QueQuan.MinimumWidth = 8;
             QueQuan.Name = "QueQuan";
             // 
             // SDT
             // 
+            SDT.DataPropertyName = "SDT";
             SDT.HeaderText = "Số Điện Thoại";
             SDT.MinimumWidth = 8;
             SDT.Name = "SDT";
             // 
             // NgaySinh
             // 
+            NgaySinh.DataPropertyName = "NgaySinh";
             NgaySinh.HeaderText = "Ngày Sinh";
             NgaySinh.MinimumWidth = 8;
             NgaySinh.Name = "NgaySinh";
             // 
             // GioiTinh
             // 
+            GioiTinh.DataPropertyName = "GioiTinh";
             GioiTinh.HeaderText = "Giới Tính";
             GioiTinh.MinimumWidth = 8;
             GioiTinh.Name = "GioiTinh";
             // 
             // NgayVao
             // 
+            NgayVao.DataPropertyName = "NgayVao";
             NgayVao.HeaderText = "Ngày Vào";
             NgayVao.MinimumWidth = 8;
             NgayVao.Name = "NgayVao";
             // 
             // MaPhong
             // 
+            MaPhong.DataPropertyName = "MaPhong";
             MaPhong.HeaderText = "Mã Phòng";
             MaPhong.MinimumWidth = 8;
             MaPhong.Name = "MaPhong";
@@ -196,14 +205,22 @@
             // 
             // datengayvao
             // 
+            datengayvao.CustomFormat = "dd/MM/yyyy";
+            datengayvao.Format = DateTimePickerFormat.Custom;
             datengayvao.Location = new Point(997, 150);
+            datengayvao.MaxDate = new DateTime(2100, 12, 31, 0, 0, 0, 0);
+            datengayvao.MinDate = new DateTime(2020, 1, 1, 0, 0, 0, 0);
             datengayvao.Name = "datengayvao";
             datengayvao.Size = new Size(285, 31);
             datengayvao.TabIndex = 21;
             // 
             // datengaysinh
             // 
+            datengaysinh.CustomFormat = "dd/MM/yyyy";
+            datengaysinh.Format = DateTimePickerFormat.Custom;
             datengaysinh.Location = new Point(997, 95);
+            datengaysinh.MaxDate = new DateTime(2100, 12, 31, 0, 0, 0, 0);
+            datengaysinh.MinDate = new DateTime(2000, 1, 1, 0, 0, 0, 0);
             datengaysinh.Name = "datengaysinh";
             datengaysinh.Size = new Size(285, 31);
             datengaysinh.TabIndex = 21;
@@ -211,15 +228,17 @@
             // cobgioitinh
             // 
             cobgioitinh.FormattingEnabled = true;
-            cobgioitinh.Location = new Point(997, 40);
+            cobgioitinh.Items.AddRange(new object[] { "Nam", "Nữ" });
+            cobgioitinh.Location = new Point(537, 140);
             cobgioitinh.Name = "cobgioitinh";
-            cobgioitinh.Size = new Size(285, 33);
+            cobgioitinh.Size = new Size(286, 33);
             cobgioitinh.TabIndex = 20;
+            cobgioitinh.SelectedIndexChanged += cobgioitinh_SelectedIndexChanged;
             // 
             // cobmaphong
             // 
             cobmaphong.FormattingEnabled = true;
-            cobmaphong.Location = new Point(537, 149);
+            cobmaphong.Location = new Point(996, 38);
             cobmaphong.Name = "cobmaphong";
             cobmaphong.Size = new Size(286, 33);
             cobmaphong.TabIndex = 20;
@@ -275,7 +294,7 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(405, 152);
+            label6.Location = new Point(880, 46);
             label6.Name = "label6";
             label6.Size = new Size(103, 25);
             label6.TabIndex = 12;
@@ -284,6 +303,7 @@
             // txtsdt
             // 
             txtsdt.Location = new Point(537, 87);
+            txtsdt.MaxLength = 10;
             txtsdt.Name = "txtsdt";
             txtsdt.Size = new Size(286, 31);
             txtsdt.TabIndex = 13;
@@ -300,7 +320,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(880, 44);
+            label4.Location = new Point(405, 148);
             label4.Name = "label4";
             label4.Size = new Size(90, 25);
             label4.TabIndex = 8;
@@ -445,6 +465,7 @@
         private DateTimePicker datengaysinh;
         private ComboBox cobgioitinh;
         private ComboBox cobmaphong;
+        private Button btndangxuat;
         private DataGridViewTextBoxColumn MSSV;
         private DataGridViewTextBoxColumn HoTen;
         private DataGridViewTextBoxColumn Lop;
@@ -454,6 +475,5 @@
         private DataGridViewTextBoxColumn GioiTinh;
         private DataGridViewTextBoxColumn NgayVao;
         private DataGridViewTextBoxColumn MaPhong;
-        private Button btndangxuat;
     }
 }

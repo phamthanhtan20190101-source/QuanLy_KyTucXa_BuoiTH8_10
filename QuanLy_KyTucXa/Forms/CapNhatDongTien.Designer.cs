@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             txthoten = new TextBox();
             label8 = new Label();
             txtlop = new TextBox();
@@ -40,24 +41,24 @@
             dataGridView = new DataGridView();
             groupBox2 = new GroupBox();
             groupBox1 = new GroupBox();
-            label10 = new Label();
-            textBox1 = new TextBox();
-            btnTimKiem = new Button();
-            comboBox1 = new ComboBox();
+            label4 = new Label();
+            txtTienNo = new TextBox();
+            btnLichSu = new Button();
+            btnXacnhan = new Button();
+            label3 = new Label();
+            checkedList_DongTien = new CheckedListBox();
             label2 = new Label();
             textBox2 = new TextBox();
-            checkedList_DongTien = new CheckedListBox();
-            label3 = new Label();
-            btnXacnhan = new Button();
-            btnLichSu = new Button();
+            comboBox1 = new ComboBox();
+            btnTimKiem = new Button();
+            textBox1 = new TextBox();
+            label10 = new Label();
             MSSV = new DataGridViewTextBoxColumn();
             HoTen = new DataGridViewTextBoxColumn();
             Lop = new DataGridViewTextBoxColumn();
             SDT = new DataGridViewTextBoxColumn();
             NgayVao = new DataGridViewTextBoxColumn();
             MaPhong = new DataGridViewTextBoxColumn();
-            label4 = new Label();
-            txtTienNo = new TextBox();
             ((System.ComponentModel.ISupportInitialize)dataGridView).BeginInit();
             groupBox2.SuspendLayout();
             groupBox1.SuspendLayout();
@@ -150,6 +151,7 @@
             dataGridView.RowHeadersWidth = 62;
             dataGridView.Size = new Size(1312, 524);
             dataGridView.TabIndex = 0;
+            dataGridView.CellClick += dataGridView_CellClick;
             // 
             // groupBox2
             // 
@@ -191,38 +193,57 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "Thông tin sinh viên";
             // 
-            // label10
+            // label4
             // 
-            label10.AutoSize = true;
-            label10.Location = new Point(10, 243);
-            label10.Name = "label10";
-            label10.Size = new Size(93, 25);
-            label10.TabIndex = 22;
-            label10.Text = "Tìm kiếm :";
+            label4.AutoSize = true;
+            label4.Location = new Point(409, 152);
+            label4.Name = "label4";
+            label4.Size = new Size(136, 25);
+            label4.TabIndex = 37;
+            label4.Text = "Số tiền còn nợ :";
             // 
-            // textBox1
+            // txtTienNo
             // 
-            textBox1.Location = new Point(109, 237);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(581, 31);
-            textBox1.TabIndex = 23;
+            txtTienNo.Location = new Point(560, 146);
+            txtTienNo.Name = "txtTienNo";
+            txtTienNo.Size = new Size(286, 31);
+            txtTienNo.TabIndex = 36;
             // 
-            // btnTimKiem
+            // btnLichSu
             // 
-            btnTimKiem.Location = new Point(707, 235);
-            btnTimKiem.Name = "btnTimKiem";
-            btnTimKiem.Size = new Size(120, 41);
-            btnTimKiem.TabIndex = 24;
-            btnTimKiem.Text = "Tìm kiếm";
-            btnTimKiem.UseVisualStyleBackColor = true;
+            btnLichSu.Location = new Point(1098, 143);
+            btnLichSu.Name = "btnLichSu";
+            btnLichSu.Size = new Size(188, 41);
+            btnLichSu.TabIndex = 35;
+            btnLichSu.Text = "Lịch sử đóng tiền";
+            btnLichSu.UseVisualStyleBackColor = true;
             // 
-            // comboBox1
+            // btnXacnhan
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(849, 235);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(285, 33);
-            comboBox1.TabIndex = 25;
+            btnXacnhan.Location = new Point(1098, 93);
+            btnXacnhan.Name = "btnXacnhan";
+            btnXacnhan.Size = new Size(188, 41);
+            btnXacnhan.TabIndex = 34;
+            btnXacnhan.Text = "Xác nhận đóng tiền";
+            btnXacnhan.UseVisualStyleBackColor = true;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(865, 38);
+            label3.Name = "label3";
+            label3.Size = new Size(185, 25);
+            label3.TabIndex = 33;
+            label3.Text = "Đóng tiền cho tháng :";
+            // 
+            // checkedList_DongTien
+            // 
+            checkedList_DongTien.FormattingEnabled = true;
+            checkedList_DongTien.Items.AddRange(new object[] { "Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12" });
+            checkedList_DongTien.Location = new Point(879, 66);
+            checkedList_DongTien.Name = "checkedList_DongTien";
+            checkedList_DongTien.Size = new Size(142, 116);
+            checkedList_DongTien.TabIndex = 32;
             // 
             // label2
             // 
@@ -240,41 +261,38 @@
             textBox2.Size = new Size(286, 31);
             textBox2.TabIndex = 26;
             // 
-            // checkedList_DongTien
+            // comboBox1
             // 
-            checkedList_DongTien.FormattingEnabled = true;
-            checkedList_DongTien.Items.AddRange(new object[] { "Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12" });
-            checkedList_DongTien.Location = new Point(879, 66);
-            checkedList_DongTien.Name = "checkedList_DongTien";
-            checkedList_DongTien.Size = new Size(142, 116);
-            checkedList_DongTien.TabIndex = 32;
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Location = new Point(849, 235);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(285, 33);
+            comboBox1.TabIndex = 25;
             // 
-            // label3
+            // btnTimKiem
             // 
-            label3.AutoSize = true;
-            label3.Location = new Point(865, 38);
-            label3.Name = "label3";
-            label3.Size = new Size(185, 25);
-            label3.TabIndex = 33;
-            label3.Text = "Đóng tiền cho tháng :";
+            btnTimKiem.Location = new Point(707, 235);
+            btnTimKiem.Name = "btnTimKiem";
+            btnTimKiem.Size = new Size(120, 41);
+            btnTimKiem.TabIndex = 24;
+            btnTimKiem.Text = "Tìm kiếm";
+            btnTimKiem.UseVisualStyleBackColor = true;
             // 
-            // btnXacnhan
+            // textBox1
             // 
-            btnXacnhan.Location = new Point(1098, 93);
-            btnXacnhan.Name = "btnXacnhan";
-            btnXacnhan.Size = new Size(188, 41);
-            btnXacnhan.TabIndex = 34;
-            btnXacnhan.Text = "Xác nhận đóng tiền";
-            btnXacnhan.UseVisualStyleBackColor = true;
+            textBox1.Location = new Point(109, 237);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(581, 31);
+            textBox1.TabIndex = 23;
             // 
-            // btnLichSu
+            // label10
             // 
-            btnLichSu.Location = new Point(1098, 143);
-            btnLichSu.Name = "btnLichSu";
-            btnLichSu.Size = new Size(188, 41);
-            btnLichSu.TabIndex = 35;
-            btnLichSu.Text = "Lịch sử đóng tiền";
-            btnLichSu.UseVisualStyleBackColor = true;
+            label10.AutoSize = true;
+            label10.Location = new Point(10, 243);
+            label10.Name = "label10";
+            label10.Size = new Size(93, 25);
+            label10.TabIndex = 22;
+            label10.Text = "Tìm kiếm :";
             // 
             // MSSV
             // 
@@ -302,6 +320,8 @@
             // 
             // NgayVao
             // 
+            dataGridViewCellStyle1.Format = "dd/MM/yyyy";
+            NgayVao.DefaultCellStyle = dataGridViewCellStyle1;
             NgayVao.HeaderText = "Ngày Vào";
             NgayVao.MinimumWidth = 8;
             NgayVao.Name = "NgayVao";
@@ -312,22 +332,6 @@
             MaPhong.MinimumWidth = 8;
             MaPhong.Name = "MaPhong";
             // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Location = new Point(409, 152);
-            label4.Name = "label4";
-            label4.Size = new Size(136, 25);
-            label4.TabIndex = 37;
-            label4.Text = "Số tiền còn nợ :";
-            // 
-            // txtTienNo
-            // 
-            txtTienNo.Location = new Point(560, 146);
-            txtTienNo.Name = "txtTienNo";
-            txtTienNo.Size = new Size(286, 31);
-            txtTienNo.TabIndex = 36;
-            // 
             // CapNhatDongTien
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -337,6 +341,7 @@
             Controls.Add(groupBox1);
             Name = "CapNhatDongTien";
             Text = "CapNhatDongTien";
+            Load += CapNhatDongTien_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView).EndInit();
             groupBox2.ResumeLayout(false);
             groupBox1.ResumeLayout(false);
@@ -367,13 +372,13 @@
         private CheckedListBox checkedList_DongTien;
         private Button btnLichSu;
         private Button btnXacnhan;
+        private Label label4;
+        private TextBox txtTienNo;
         private DataGridViewTextBoxColumn MSSV;
         private DataGridViewTextBoxColumn HoTen;
         private DataGridViewTextBoxColumn Lop;
         private DataGridViewTextBoxColumn SDT;
         private DataGridViewTextBoxColumn NgayVao;
         private DataGridViewTextBoxColumn MaPhong;
-        private Label label4;
-        private TextBox txtTienNo;
     }
 }

@@ -30,24 +30,12 @@
         {
             groupBox1 = new GroupBox();
             dataGridViewToaA = new DataGridView();
-            MaPhong = new DataGridViewTextBoxColumn();
-            TienDienNuoc = new DataGridViewTextBoxColumn();
-            SoLuongDangO = new DataGridViewTextBoxColumn();
             groupBox2 = new GroupBox();
             dataGridViewToaD = new DataGridView();
-            dataGridViewTextBoxColumn7 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn8 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn9 = new DataGridViewTextBoxColumn();
             groupBox3 = new GroupBox();
             dataGridViewToaB = new DataGridView();
-            dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn3 = new DataGridViewTextBoxColumn();
             groupBox4 = new GroupBox();
             dataGridViewToaC = new DataGridView();
-            dataGridViewTextBoxColumn4 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn5 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn6 = new DataGridViewTextBoxColumn();
             label1 = new Label();
             label3 = new Label();
             label4 = new Label();
@@ -65,6 +53,18 @@
             btnThem = new Button();
             btnTimKiem = new Button();
             btnHuyBo = new Button();
+            MaPhongA = new DataGridViewTextBoxColumn();
+            GiaA = new DataGridViewTextBoxColumn();
+            SoLuongDangOA = new DataGridViewTextBoxColumn();
+            MaPhongD = new DataGridViewTextBoxColumn();
+            GiaD = new DataGridViewTextBoxColumn();
+            SoLuongDangOD = new DataGridViewTextBoxColumn();
+            MaPhongC = new DataGridViewTextBoxColumn();
+            GiaC = new DataGridViewTextBoxColumn();
+            SoLuongDangOC = new DataGridViewTextBoxColumn();
+            MaPhongB = new DataGridViewTextBoxColumn();
+            GiaB = new DataGridViewTextBoxColumn();
+            SoLuongDangOB = new DataGridViewTextBoxColumn();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridViewToaA).BeginInit();
             groupBox2.SuspendLayout();
@@ -92,7 +92,7 @@
             dataGridViewToaA.AllowUserToDeleteRows = false;
             dataGridViewToaA.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridViewToaA.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewToaA.Columns.AddRange(new DataGridViewColumn[] { MaPhong, TienDienNuoc, SoLuongDangO });
+            dataGridViewToaA.Columns.AddRange(new DataGridViewColumn[] { MaPhongA, GiaA, SoLuongDangOA });
             dataGridViewToaA.Dock = DockStyle.Fill;
             dataGridViewToaA.Location = new Point(3, 27);
             dataGridViewToaA.MultiSelect = false;
@@ -101,27 +101,6 @@
             dataGridViewToaA.Size = new Size(456, 297);
             dataGridViewToaA.TabIndex = 0;
             dataGridViewToaA.CellClick += dataGridViewToaA_CellClick;
-            // 
-            // MaPhong
-            // 
-            MaPhong.DataPropertyName = "MaPhong";
-            MaPhong.HeaderText = "Mã Phòng";
-            MaPhong.MinimumWidth = 8;
-            MaPhong.Name = "MaPhong";
-            // 
-            // TienDienNuoc
-            // 
-            TienDienNuoc.DataPropertyName = "TienDienNuoc";
-            TienDienNuoc.HeaderText = "Tiền Điện Nước";
-            TienDienNuoc.MinimumWidth = 8;
-            TienDienNuoc.Name = "TienDienNuoc";
-            // 
-            // SoLuongDangO
-            // 
-            SoLuongDangO.DataPropertyName = "SoLuongDangO";
-            SoLuongDangO.HeaderText = "Số Lượng";
-            SoLuongDangO.MinimumWidth = 8;
-            SoLuongDangO.Name = "SoLuongDangO";
             // 
             // groupBox2
             // 
@@ -139,7 +118,7 @@
             dataGridViewToaD.AllowUserToDeleteRows = false;
             dataGridViewToaD.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridViewToaD.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewToaD.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn7, dataGridViewTextBoxColumn8, dataGridViewTextBoxColumn9 });
+            dataGridViewToaD.Columns.AddRange(new DataGridViewColumn[] { MaPhongD, GiaD, SoLuongDangOD });
             dataGridViewToaD.Dock = DockStyle.Fill;
             dataGridViewToaD.Location = new Point(3, 27);
             dataGridViewToaD.MultiSelect = false;
@@ -148,27 +127,6 @@
             dataGridViewToaD.Size = new Size(456, 302);
             dataGridViewToaD.TabIndex = 1;
             dataGridViewToaD.CellClick += dataGridViewToaD_CellClick;
-            // 
-            // dataGridViewTextBoxColumn7
-            // 
-            dataGridViewTextBoxColumn7.DataPropertyName = "MaPhong";
-            dataGridViewTextBoxColumn7.HeaderText = "Mã Phòng";
-            dataGridViewTextBoxColumn7.MinimumWidth = 8;
-            dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
-            // 
-            // dataGridViewTextBoxColumn8
-            // 
-            dataGridViewTextBoxColumn8.DataPropertyName = "TienDienNuoc";
-            dataGridViewTextBoxColumn8.HeaderText = "Tiền Điện Nước";
-            dataGridViewTextBoxColumn8.MinimumWidth = 8;
-            dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
-            // 
-            // dataGridViewTextBoxColumn9
-            // 
-            dataGridViewTextBoxColumn9.DataPropertyName = "SoLuongDangO";
-            dataGridViewTextBoxColumn9.HeaderText = "Số Lượng";
-            dataGridViewTextBoxColumn9.MinimumWidth = 8;
-            dataGridViewTextBoxColumn9.Name = "dataGridViewTextBoxColumn9";
             // 
             // groupBox3
             // 
@@ -186,7 +144,7 @@
             dataGridViewToaB.AllowUserToDeleteRows = false;
             dataGridViewToaB.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridViewToaB.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewToaB.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn1, dataGridViewTextBoxColumn2, dataGridViewTextBoxColumn3 });
+            dataGridViewToaB.Columns.AddRange(new DataGridViewColumn[] { MaPhongB, GiaB, SoLuongDangOB });
             dataGridViewToaB.Dock = DockStyle.Fill;
             dataGridViewToaB.Location = new Point(3, 27);
             dataGridViewToaB.MultiSelect = false;
@@ -195,27 +153,6 @@
             dataGridViewToaB.Size = new Size(456, 316);
             dataGridViewToaB.TabIndex = 1;
             dataGridViewToaB.CellClick += dataGridViewToaB_CellClick;
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            dataGridViewTextBoxColumn1.DataPropertyName = "MaPhong";
-            dataGridViewTextBoxColumn1.HeaderText = "Mã Phòng";
-            dataGridViewTextBoxColumn1.MinimumWidth = 8;
-            dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            dataGridViewTextBoxColumn2.DataPropertyName = "TienDienNuoc";
-            dataGridViewTextBoxColumn2.HeaderText = "Tiền Điện Nước";
-            dataGridViewTextBoxColumn2.MinimumWidth = 8;
-            dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            // 
-            // dataGridViewTextBoxColumn3
-            // 
-            dataGridViewTextBoxColumn3.DataPropertyName = "SoLuongDangO";
-            dataGridViewTextBoxColumn3.HeaderText = "Số Lượng";
-            dataGridViewTextBoxColumn3.MinimumWidth = 8;
-            dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
             // 
             // groupBox4
             // 
@@ -233,7 +170,7 @@
             dataGridViewToaC.AllowUserToDeleteRows = false;
             dataGridViewToaC.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridViewToaC.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewToaC.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn4, dataGridViewTextBoxColumn5, dataGridViewTextBoxColumn6 });
+            dataGridViewToaC.Columns.AddRange(new DataGridViewColumn[] { MaPhongC, GiaC, SoLuongDangOC });
             dataGridViewToaC.Dock = DockStyle.Fill;
             dataGridViewToaC.Location = new Point(3, 27);
             dataGridViewToaC.MultiSelect = false;
@@ -242,27 +179,6 @@
             dataGridViewToaC.Size = new Size(456, 316);
             dataGridViewToaC.TabIndex = 1;
             dataGridViewToaC.CellClick += dataGridViewToaC_CellClick;
-            // 
-            // dataGridViewTextBoxColumn4
-            // 
-            dataGridViewTextBoxColumn4.DataPropertyName = "MaPhong";
-            dataGridViewTextBoxColumn4.HeaderText = "Mã Phòng";
-            dataGridViewTextBoxColumn4.MinimumWidth = 8;
-            dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
-            // 
-            // dataGridViewTextBoxColumn5
-            // 
-            dataGridViewTextBoxColumn5.DataPropertyName = "TienDienNuoc";
-            dataGridViewTextBoxColumn5.HeaderText = "Tiền Điện Nước";
-            dataGridViewTextBoxColumn5.MinimumWidth = 8;
-            dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
-            // 
-            // dataGridViewTextBoxColumn6
-            // 
-            dataGridViewTextBoxColumn6.DataPropertyName = "SoLuongDangO";
-            dataGridViewTextBoxColumn6.HeaderText = "Số Lượng";
-            dataGridViewTextBoxColumn6.MinimumWidth = 8;
-            dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
             // 
             // label1
             // 
@@ -438,6 +354,90 @@
             btnHuyBo.UseVisualStyleBackColor = true;
             btnHuyBo.Click += btnHuyBo_Click;
             // 
+            // MaPhongA
+            // 
+            MaPhongA.DataPropertyName = "MaPhong";
+            MaPhongA.HeaderText = "Mã Phòng";
+            MaPhongA.MinimumWidth = 8;
+            MaPhongA.Name = "MaPhongA";
+            // 
+            // GiaA
+            // 
+            GiaA.DataPropertyName = "Gia";
+            GiaA.HeaderText = "Giá Phòng";
+            GiaA.MinimumWidth = 8;
+            GiaA.Name = "GiaA";
+            // 
+            // SoLuongDangOA
+            // 
+            SoLuongDangOA.DataPropertyName = "SoLuongDangO";
+            SoLuongDangOA.HeaderText = "Số Lượng";
+            SoLuongDangOA.MinimumWidth = 8;
+            SoLuongDangOA.Name = "SoLuongDangOA";
+            // 
+            // MaPhongD
+            // 
+            MaPhongD.DataPropertyName = "MaPhong";
+            MaPhongD.HeaderText = "Mã Phòng";
+            MaPhongD.MinimumWidth = 8;
+            MaPhongD.Name = "MaPhongD";
+            // 
+            // GiaD
+            // 
+            GiaD.DataPropertyName = "Gia";
+            GiaD.HeaderText = "Giá phòng";
+            GiaD.MinimumWidth = 8;
+            GiaD.Name = "GiaD";
+            // 
+            // SoLuongDangOD
+            // 
+            SoLuongDangOD.DataPropertyName = "SoLuongDangO";
+            SoLuongDangOD.HeaderText = "Số Lượng";
+            SoLuongDangOD.MinimumWidth = 8;
+            SoLuongDangOD.Name = "SoLuongDangOD";
+            // 
+            // MaPhongC
+            // 
+            MaPhongC.DataPropertyName = "MaPhong";
+            MaPhongC.HeaderText = "Mã Phòng";
+            MaPhongC.MinimumWidth = 8;
+            MaPhongC.Name = "MaPhongC";
+            // 
+            // GiaC
+            // 
+            GiaC.DataPropertyName = "Gia";
+            GiaC.HeaderText = "Giá phòng";
+            GiaC.MinimumWidth = 8;
+            GiaC.Name = "GiaC";
+            // 
+            // SoLuongDangOC
+            // 
+            SoLuongDangOC.DataPropertyName = "SoLuongDangO";
+            SoLuongDangOC.HeaderText = "Số Lượng";
+            SoLuongDangOC.MinimumWidth = 8;
+            SoLuongDangOC.Name = "SoLuongDangOC";
+            // 
+            // MaPhongB
+            // 
+            MaPhongB.DataPropertyName = "MaPhong";
+            MaPhongB.HeaderText = "Mã Phòng";
+            MaPhongB.MinimumWidth = 8;
+            MaPhongB.Name = "MaPhongB";
+            // 
+            // GiaB
+            // 
+            GiaB.DataPropertyName = "Gia";
+            GiaB.HeaderText = "Giá Phòng";
+            GiaB.MinimumWidth = 8;
+            GiaB.Name = "GiaB";
+            // 
+            // SoLuongDangOB
+            // 
+            SoLuongDangOB.DataPropertyName = "SoLuongDangO";
+            SoLuongDangOB.HeaderText = "Số lượng";
+            SoLuongDangOB.MinimumWidth = 8;
+            SoLuongDangOB.Name = "SoLuongDangOB";
+            // 
             // frmToaNha
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -486,22 +486,22 @@
         private TextBox txtGiaPhong;
         private DataGridView dataGridViewToaA;
         private Button btnQuayLai;
-        private DataGridViewTextBoxColumn MaPhong;
-        private DataGridViewTextBoxColumn TienDienNuoc;
-        private DataGridViewTextBoxColumn SoLuongDangO;
         private DataGridView dataGridViewToaD;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn9;
         private DataGridView dataGridViewToaB;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private DataGridView dataGridViewToaC;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
         private Button button1;
         private TextBox txtMaPhong;
+        private DataGridViewTextBoxColumn MaPhongA;
+        private DataGridViewTextBoxColumn GiaA;
+        private DataGridViewTextBoxColumn SoLuongDangOA;
+        private DataGridViewTextBoxColumn MaPhongD;
+        private DataGridViewTextBoxColumn GiaD;
+        private DataGridViewTextBoxColumn SoLuongDangOD;
+        private DataGridViewTextBoxColumn MaPhongB;
+        private DataGridViewTextBoxColumn GiaB;
+        private DataGridViewTextBoxColumn SoLuongDangOB;
+        private DataGridViewTextBoxColumn MaPhongC;
+        private DataGridViewTextBoxColumn GiaC;
+        private DataGridViewTextBoxColumn SoLuongDangOC;
     }
 }
