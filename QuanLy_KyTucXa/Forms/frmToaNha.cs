@@ -47,25 +47,42 @@ namespace QuanLy_KyTucXa.Forms
 
         private void LoadDataToAllGrids()
         {
-           // --- HÀM TẢI DỮ LIỆU CHIA VỀ 4 BẢNG ---
+            // --- HÀM TẢI DỮ LIỆU CHIA VỀ 4 BẢNG ---
 
-        
+
             try
             {
-                // 1. Lấy tất cả phòng từ CSDL
-                var listPhong = context.Phongs.ToList();
+                // 1. Tắt tự động tạo cột để lưới không bị rối
+                dataGridViewToaA.AutoGenerateColumns = false;
+                dataGridViewToaB.AutoGenerateColumns = false;
+                dataGridViewToaC.AutoGenerateColumns = false;
+                dataGridViewToaD.AutoGenerateColumns = false;
 
-                // 2. Đổ dữ liệu vào từng lưới
+                // 2. Trỏ cột Số Lượng trên giao diện vào thuộc tính "SoLuongHienThi" mà ta sắp tạo
+                dataGridViewToaA.Columns["SoLuongDangOA"].DataPropertyName = "SoLuongHienThi";
+                dataGridViewToaB.Columns["SoLuongDangOB"].DataPropertyName = "SoLuongHienThi";
+                dataGridViewToaC.Columns["SoLuongDangOC"].DataPropertyName = "SoLuongHienThi";
+                dataGridViewToaD.Columns["SoLuongDangOD"].DataPropertyName = "SoLuongHienThi";
+
+                // 3. Lấy danh sách phòng và KẾT HỢP đếm số sinh viên
+                var listPhong = context.Phongs
+                    .Select(p => new
+                    {
+                        MaPhong = p.MaPhong,
+                        Gia = p.Gia,
+                        MaToaNha = p.MaToaNha,
+                        LoaiPhong = p.LoaiPhong,
+
+                        // Đếm người ĐANG Ở trực tiếp từ bảng SinhViens và ghép chuỗi "Số đang ở / Tối đa"
+                        SoLuongHienThi = context.SinhViens.Count(s => s.MaPhong == p.MaPhong).ToString() + "/" + p.LoaiPhong.ToString()
+                    })
+                    .ToList();
+
+                // 4. Đổ dữ liệu vào từng lưới
                 dataGridViewToaA.DataSource = listPhong.Where(p => p.MaToaNha == "A").ToList();
                 dataGridViewToaB.DataSource = listPhong.Where(p => p.MaToaNha == "B").ToList();
                 dataGridViewToaC.DataSource = listPhong.Where(p => p.MaToaNha == "C").ToList();
                 dataGridViewToaD.DataSource = listPhong.Where(p => p.MaToaNha == "D").ToList();
-
-                // 3. Gọi hàm ẩn cột thừa và đặt tên tiếng Việt cho 4 lưới
-                CauHinhHienThiLuoi(dataGridViewToaA);
-                CauHinhHienThiLuoi(dataGridViewToaB);
-                CauHinhHienThiLuoi(dataGridViewToaC);
-                CauHinhHienThiLuoi(dataGridViewToaD);
             }
             catch (Exception ex)
             {
@@ -73,59 +90,9 @@ namespace QuanLy_KyTucXa.Forms
             }
         }
 
-        private void CauHinhHienThiLuoi(DataGridView dgv)
-        {
-            // Nếu lưới chưa có dữ liệu thì không làm gì cả
-            if (dgv.DataSource == null) return;
+        
 
-            // 1. Ẩn các cột không cần thiết (nhưng vẫn giữ dữ liệu ngầm để xử lý Logic)
-            if (dgv.Columns["LoaiPhong"] != null) dgv.Columns["LoaiPhong"].Visible = false;
-            if (dgv.Columns["Gia"] != null) dgv.Columns["Gia"].Visible = false;
-            if (dgv.Columns["TrangThai"] != null) dgv.Columns["TrangThai"].Visible = false;
-            if (dgv.Columns["MaToaNha"] != null) dgv.Columns["MaToaNha"].Visible = false;
-            if (dgv.Columns["ToaNha"] != null) dgv.Columns["ToaNha"].Visible = false; // Cột quan hệ bảng
-
-            // 2. Hiện và đặt tên tiếng Việt cho 3 cột cần thiết
-            if (dgv.Columns["MaPhong"] != null)
-            {
-                dgv.Columns["MaPhong"].Visible = true;
-                dgv.Columns["MaPhong"].HeaderText = "Mã Phòng";
-                dgv.Columns["MaPhong"].Width = 100; // Chỉnh độ rộng nếu thích
-            }
-
-            if (dgv.Columns["TienDienNuoc"] != null)
-            {
-                dgv.Columns["TienDienNuoc"].Visible = true;
-                dgv.Columns["TienDienNuoc"].HeaderText = "Tiền Điện Nước";
-            }
-
-            if (dgv.Columns["SoLuongDangO"] != null)
-            {
-                dgv.Columns["SoLuongDangO"].Visible = true;
-                dgv.Columns["SoLuongDangO"].HeaderText = "Số Lượng";
-            }
-        }
-
-        private void HienThiThongTinTuGrid(DataGridViewRow row)
-        {
-            if (row != null)
-            {
-                txtMaPhong.Text = row.Cells["MaPhong"].Value.ToString();
-                currentMaPhong = txtMaPhong.Text; // Lưu lại để dùng cho Sửa/Xóa
-
-                // Xử lý hiển thị ComboBox Tòa Nhà
-                string maToa = row.Cells["MaToaNha"].Value.ToString();
-                if (maToa == "A") cobToaNha.Text = "Tòa A (Nam)";
-                else if (maToa == "B") cobToaNha.Text = "Tòa B (Nữ)";
-                else if (maToa == "C") cobToaNha.Text = "Tòa C (Nam)";
-                else if (maToa == "D") cobToaNha.Text = "Tòa D (Nữ)";
-
-                // Xử lý hiển thị Loại Phòng
-                int loai = Convert.ToInt32(row.Cells["LoaiPhong"].Value);
-                if (loai == 4) cobLoaiPhong.Text = "4 Người";
-                else if (loai == 6) cobLoaiPhong.Text = "6 Người";
-            }
-        }
+        
 
         private void btnThem_Click(object sender, EventArgs e)
         {
@@ -157,36 +124,42 @@ namespace QuanLy_KyTucXa.Forms
         {
             if (string.IsNullOrEmpty(currentMaPhong))
             {
-                MessageBox.Show("Vui lòng chọn phòng để xóa!", "Cảnh báo");
+                MessageBox.Show("Vui lòng chọn phòng cần xóa từ danh sách!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            if (MessageBox.Show($"Bạn có chắc chắn muốn xóa phòng {currentMaPhong}?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            // 2. Hỏi lại để tránh xóa nhầm
+            if (MessageBox.Show($"Bạn có chắc chắn muốn xóa vĩnh viễn phòng {currentMaPhong}?", "Xác nhận xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 try
                 {
                     var p = context.Phongs.Find(currentMaPhong);
                     if (p != null)
                     {
-                        // Kiểm tra nếu phòng đang có người ở thì không cho xóa
-                        if (p.SoLuongDangO > 0)
+                        // [CODE MỚI] 3. ĐẾM TRỰC TIẾP SỐ SINH VIÊN ĐANG Ở PHÒNG NÀY
+                        int soSinhVienDangO = context.SinhViens.Count(s => s.MaPhong == currentMaPhong);
+
+                        // Nếu lớn hơn 0 -> Tức là có người ở -> Chặn lại ngay!
+                        if (soSinhVienDangO > 0)
                         {
-                            MessageBox.Show("Phòng này đang có sinh viên ở, không thể xóa!", "Lỗi");
-                            return;
+                            MessageBox.Show($"Không thể xóa!\nPhòng {currentMaPhong} hiện đang có {soSinhVienDangO} sinh viên ở.\nVui lòng chuyển các sinh viên này sang phòng khác trước khi xóa.", "Từ chối xóa", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return; // Thoát hàm, không chạy lệnh xóa bên dưới
                         }
 
+                        // 4. Nếu phòng trống (soSinhVienDangO == 0) thì tiến hành xóa
                         context.Phongs.Remove(p);
                         context.SaveChanges();
-                        MessageBox.Show("Xóa thành công!");
-                        LoadDataToAllGrids();
+                        MessageBox.Show("Xóa phòng thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                        // Reset form
+                        // Tải lại lưới và đưa giao diện về trạng thái ban đầu
+                        LoadDataToAllGrids();
                         btnHuyBo_Click(sender, e);
                     }
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Lỗi xóa: " + ex.Message);
+                    // Bắt lỗi trong trường hợp phòng này đang bị dính khóa ngoại với bảng Hóa Đơn / Đóng Tiền
+                    MessageBox.Show("Lỗi: Không thể xóa phòng này vì đang có dữ liệu liên quan (Hóa đơn, v.v...)\nChi tiết: " + ex.Message, "Lỗi xóa dữ liệu", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -222,7 +195,7 @@ namespace QuanLy_KyTucXa.Forms
 
                     // Gán các giá trị mặc định cho phòng mới
                     p.TrangThai = "Trống";
-                    p.TienDienNuoc = 0;
+                    p.TienDienNuoc = 100000;
                     p.SoLuongDangO = 0;
 
                     // Thêm vào Context (chưa lưu)
@@ -289,83 +262,97 @@ namespace QuanLy_KyTucXa.Forms
 
         private void dataGridViewToaA_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            // 1. Chặn click vào dòng tiêu đề hoặc dòng trống
-            if (e.RowIndex < 0 || dataGridViewToaA.Rows[e.RowIndex].IsNewRow)
-            {
-                return;
-            }
+            if (e.RowIndex < 0 || dataGridViewToaA.Rows[e.RowIndex].IsNewRow) return;
 
-            // 2. Lấy dữ liệu của dòng vừa click
             DataGridViewRow row = dataGridViewToaA.Rows[e.RowIndex];
 
-            // 3. Đổ dữ liệu lên các ô nhập liệu
-            // (Lưu ý: Thay các chữ "MaPhong", "GiaPhong", "SoLuong" bằng đúng tên (Name) cột của bạn)
             txtMaPhong.Text = row.Cells["MaPhongA"].Value?.ToString();
             txtGiaPhong.Text = row.Cells["GiaA"].Value?.ToString();
-            cobLoaiPhong.Text = row.Cells["SoLuongDangOA"].Value?.ToString();
 
-            // 4. Xử lý ô Tòa Nhà (Vì click vào lưới Tòa A nên ta tự động gán là Tòa A)
+            
+            string soLuongChuoi = row.Cells["SoLuongDangOA"].Value?.ToString(); // Lấy chuỗi "1/4"
+            if (!string.IsNullOrEmpty(soLuongChuoi) && soLuongChuoi.Contains("/"))
+            {
+                string sucChua = soLuongChuoi.Split('/')[1]; // Cắt lấy số phía sau dấu '/'
+
+                // Chú ý: "4 Người " của bạn đang có 1 khoảng trắng ở cuối theo file Designer
+                if (sucChua == "4") cobLoaiPhong.Text = "4 Người ";
+                else if (sucChua == "6") cobLoaiPhong.Text = "6 Người";
+            }
+
             cobToaNha.Text = "Tòa A";
+            currentMaPhong = txtMaPhong.Text;
         }
 
         private void dataGridViewToaB_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0 || dataGridViewToaB.Rows[e.RowIndex].IsNewRow)
-            {
-                return;
-            }
+            if (e.RowIndex < 0 || dataGridViewToaB.Rows[e.RowIndex].IsNewRow) return;
 
-            // 2. Lấy dữ liệu của dòng vừa click
             DataGridViewRow row = dataGridViewToaB.Rows[e.RowIndex];
 
-            // 3. Đổ dữ liệu lên các ô nhập liệu
-            // (Lưu ý: Thay các chữ "MaPhong", "GiaPhong", "SoLuong" bằng đúng tên (Name) cột của bạn)
             txtMaPhong.Text = row.Cells["MaPhongB"].Value?.ToString();
             txtGiaPhong.Text = row.Cells["GiaB"].Value?.ToString();
-            cobLoaiPhong.Text = row.Cells["SoLuongDangOB"].Value?.ToString();
 
-            // 4. Xử lý ô Tòa Nhà (Vì click vào lưới Tòa A nên ta tự động gán là Tòa A)
+            // -- CODE MỚI: Cắt chuỗi "1/4" để lấy số "4" gán vào ComboBox Loại phòng --
+            string soLuongChuoi = row.Cells["SoLuongDangOB"].Value?.ToString(); // Lấy chuỗi "1/4"
+            if (!string.IsNullOrEmpty(soLuongChuoi) && soLuongChuoi.Contains("/"))
+            {
+                string sucChua = soLuongChuoi.Split('/')[1]; // Cắt lấy số phía sau dấu '/'
+
+                // Chú ý: "4 Người " của bạn đang có 1 khoảng trắng ở cuối theo file Designer
+                if (sucChua == "4") cobLoaiPhong.Text = "4 Người ";
+                else if (sucChua == "6") cobLoaiPhong.Text = "6 Người";
+            }
+
             cobToaNha.Text = "Tòa B";
+            currentMaPhong = txtMaPhong.Text;
         }
 
         private void dataGridViewToaC_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0 || dataGridViewToaC.Rows[e.RowIndex].IsNewRow)
-            {
-                return;
-            }
+            if (e.RowIndex < 0 || dataGridViewToaC.Rows[e.RowIndex].IsNewRow) return;
 
-            // 2. Lấy dữ liệu của dòng vừa click
             DataGridViewRow row = dataGridViewToaC.Rows[e.RowIndex];
 
-            // 3. Đổ dữ liệu lên các ô nhập liệu
-            // (Lưu ý: Thay các chữ "MaPhong", "GiaPhong", "SoLuong" bằng đúng tên (Name) cột của bạn)
             txtMaPhong.Text = row.Cells["MaPhongC"].Value?.ToString();
             txtGiaPhong.Text = row.Cells["GiaC"].Value?.ToString();
-            cobLoaiPhong.Text = row.Cells["SoLuongDangOC"].Value?.ToString();
 
-            // 4. Xử lý ô Tòa Nhà (Vì click vào lưới Tòa A nên ta tự động gán là Tòa A)
+            
+            string soLuongChuoi = row.Cells["SoLuongDangOC"].Value?.ToString(); // Lấy chuỗi "1/4"
+            if (!string.IsNullOrEmpty(soLuongChuoi) && soLuongChuoi.Contains("/"))
+            {
+                string sucChua = soLuongChuoi.Split('/')[1]; // Cắt lấy số phía sau dấu '/'
+
+                // Chú ý: "4 Người " của bạn đang có 1 khoảng trắng ở cuối theo file Designer
+                if (sucChua == "4") cobLoaiPhong.Text = "4 Người ";
+                else if (sucChua == "6") cobLoaiPhong.Text = "6 Người";
+            }
+
             cobToaNha.Text = "Tòa C";
+            currentMaPhong = txtMaPhong.Text;
         }
 
         private void dataGridViewToaD_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0 || dataGridViewToaD.Rows[e.RowIndex].IsNewRow)
-            {
-                return;
-            }
+            if (e.RowIndex < 0 || dataGridViewToaD.Rows[e.RowIndex].IsNewRow) return;
 
-            // 2. Lấy dữ liệu của dòng vừa click
             DataGridViewRow row = dataGridViewToaD.Rows[e.RowIndex];
 
-            // 3. Đổ dữ liệu lên các ô nhập liệu
-            // (Lưu ý: Thay các chữ "MaPhong", "GiaPhong", "SoLuong" bằng đúng tên (Name) cột của bạn)
             txtMaPhong.Text = row.Cells["MaPhongD"].Value?.ToString();
             txtGiaPhong.Text = row.Cells["GiaD"].Value?.ToString();
-            cobLoaiPhong.Text = row.Cells["SoLuongDangOD"].Value?.ToString();
 
-            // 4. Xử lý ô Tòa Nhà (Vì click vào lưới Tòa A nên ta tự động gán là Tòa A)
+            string soLuongChuoi = row.Cells["SoLuongDangOD"].Value?.ToString(); // Lấy chuỗi "1/4"
+            if (!string.IsNullOrEmpty(soLuongChuoi) && soLuongChuoi.Contains("/"))
+            {
+                string sucChua = soLuongChuoi.Split('/')[1]; // Cắt lấy số phía sau dấu '/'
+
+                // Chú ý: "4 Người " của bạn đang có 1 khoảng trắng ở cuối theo file Designer
+                if (sucChua == "4") cobLoaiPhong.Text = "4 Người ";
+                else if (sucChua == "6") cobLoaiPhong.Text = "6 Người";
+            }
+
             cobToaNha.Text = "Tòa D";
+            currentMaPhong = txtMaPhong.Text;
         }
     }
 

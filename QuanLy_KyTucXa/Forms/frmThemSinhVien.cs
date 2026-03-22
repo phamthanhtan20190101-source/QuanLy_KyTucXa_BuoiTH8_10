@@ -1,4 +1,5 @@
-﻿using QuanLy_KyTucXa.Data;
+﻿using Microsoft.IdentityModel.Tokens;
+using QuanLy_KyTucXa.Data;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -182,7 +183,7 @@ namespace QuanLy_KyTucXa.Forms
                         context.SaveChanges();
 
                         MessageBox.Show("Xóa thành công!");
-                        ResetForm(); // [ĐÃ SỬA] Dùng hàm ResetForm thay vì Load
+                        ResetForm();
                     }
                 }
                 catch (Exception ex)
@@ -200,6 +201,39 @@ namespace QuanLy_KyTucXa.Forms
                 return;
             }
 
+            
+            if (!System.Text.RegularExpressions.Regex.IsMatch(txtmssv.Text, @"^SV\d{3}$"))
+            {
+                MessageBox.Show("Mã số sinh viên không hợp lệ!", "Sai định dạng", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtmssv.Clear();
+                txtmssv.Focus(); // Trả con trỏ chuột về ô MSSV cho người dùng sửa
+                return;          // Dừng lại, không chạy lệnh lưu CSDL phía dưới nữa
+            }
+
+            string maPhongChon = cobmaphong.SelectedValue?.ToString();
+            if (!string.IsNullOrEmpty(maPhongChon))
+            {
+                // Lấy thông tin phòng đang được chọn từ CSDL
+                var phongDuocChon = context.Phongs.FirstOrDefault(p => p.MaPhong == maPhongChon);
+
+                if (phongDuocChon != null)
+                {
+                    // Lấy thẳng con số 4 hoặc 6 từ CSDL làm sức chứa tối đa
+                    int sucChuaToiDa = phongDuocChon.LoaiPhong;
+
+                    // ĐẾM SỐ NGƯỜI HIỆN TẠI TRONG PHÒNG ĐÓ
+                    int soNguoiHienTai = context.SinhViens.Count(s => s.MaPhong == maPhongChon && s.MSSV != txtmssv.Text);
+
+                    // NẾU SỐ NGƯỜI ĐÃ ĐẠT GIỚI HẠN -> CHẶN LẠI
+                    if (soNguoiHienTai >= sucChuaToiDa)
+                    {
+                        MessageBox.Show($"Phòng {maPhongChon} hiện đã đủ người (Tối đa {sucChuaToiDa} người)!\nVui lòng chọn phòng khác cho sinh viên này.", "Phòng đã đầy", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                        cobmaphong.Focus();
+                        return; // Dừng lại, không cho phép đoạn code Lưu chạy tiếp
+                    }
+                }
+            }
+
             try
             {
                 if (xuLyThem)
@@ -211,6 +245,7 @@ namespace QuanLy_KyTucXa.Forms
                         return;
                     }
 
+                    // 1. TẠO THÔNG TIN SINH VIÊN
                     SinhVien sv = new SinhVien();
                     sv.MSSV = txtmssv.Text;
                     sv.HoTen = txthoten.Text;
@@ -222,9 +257,25 @@ namespace QuanLy_KyTucXa.Forms
                     sv.NgayVao = datengayvao.Value;
                     sv.MaPhong = cobmaphong.SelectedValue?.ToString();
 
+                    // 2. TỰ ĐỘNG TẠO TÀI KHOẢN
+                    // Lấy 3 ký tự cuối cùng của MSSV (Ví dụ: "SV123" -> Lấy "123")
+                    string matKhauTuDong = txtmssv.Text.Substring(txtmssv.Text.Length - 3);
+
+                    TaiKhoan tk = new TaiKhoan();
+                    tk.TenTaiKhoan = txtmssv.Text;   // Tên đăng nhập là MSSV
+                    tk.MatKhau = matKhauTuDong;      // Mật khẩu là 3 số cuối
+                    tk.Quyen = "SinhVien";           // Phân quyền chuẩn theo ghi chú của bạn
+
+                    // 3. LƯU CẢ 2 VÀO DATABASE
                     context.SinhViens.Add(sv);
+
+                    // Lưu ý: Đảm bảo trong file QLKTXDbContext.cs của bạn có khai báo DbSet là TaiKhoans nhé
+                    context.TaiKhoans.Add(tk);
+
                     context.SaveChanges();
-                    MessageBox.Show("Thêm mới thành công!");
+
+                    // Hiện thông báo xịn xò cho người dùng biết mật khẩu mặc định
+                    MessageBox.Show($"Thêm sinh viên thành công! {tk.TenTaiKhoan}\n", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
@@ -246,7 +297,7 @@ namespace QuanLy_KyTucXa.Forms
                     }
                 }
 
-                ResetForm(); // [ĐÃ SỬA] Dùng hàm ResetForm
+                ResetForm();
             }
             catch (Exception ex)
             {

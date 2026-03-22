@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace QuanLy_KyTucXa.Forms
 {
@@ -27,8 +28,13 @@ namespace QuanLy_KyTucXa.Forms
             txtsdt.ReadOnly = true;
             txtTienNo.ReadOnly = true; // Tiền nợ thường do hệ thống tính, không nên nhập tay
 
+            var listPhong = context.Phongs.Select(p => p.MaPhong).ToList();
+            listPhong.Insert(0, "Tất cả các phòng");
+            cobtimkiem.DataSource = listPhong;
+
             // Tải dữ liệu lên lưới
             LoadData();
+
         }
         private void LoadData()
         {
@@ -93,6 +99,89 @@ namespace QuanLy_KyTucXa.Forms
                 {
                     txtTienNo.Text = "0"; // Nếu không tìm thấy phòng (hiếm khi xảy ra)
                 }
+            }
+        }
+
+        private void btnTimKiem_Click(object sender, EventArgs e)
+        {
+            string tuKhoa = txttimkiem.Text.Trim();
+            bool timNguoiNo = checkSVno.Checked; // Lấy trạng thái của Checkbox mới
+
+            // 1. KIỂM TRA TEXTBOX CÓ TRỐNG HAY KHÔNG
+            if (string.IsNullOrEmpty(tuKhoa))
+            {
+                if (timNguoiNo)
+                {
+                    // Nếu TextBox trống NHƯNG có tick "Sinh viên nợ" -> Vẫn cho phép hiện danh sách nợ
+                    var listNo = context.SinhViens
+                        .Where(sv => sv.Phong != null && (sv.Phong.Gia + sv.Phong.TienDienNuoc) > 0)
+                        .OrderBy(sv => sv.HoTen).ToList();
+                    dataGridView.DataSource = listNo;
+                }
+                else
+                {
+                    // Nếu TextBox trống VÀ KHÔNG tick gì cả -> Hiện cảnh báo bắt buộc nhập
+                    MessageBox.Show("Vui lòng nhập MSSV hoặc Tên sinh viên để tìm kiếm!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txttimkiem.Focus();
+                }
+                return; // Dừng lại, không chạy code tìm kiếm bên dưới nữa
+            }
+
+            // 2. NẾU TEXTBOX CÓ CHỮ -> Tìm kiếm theo MSSV hoặc Tên
+            var query = context.SinhViens.Where(sv => sv.MSSV.Contains(tuKhoa) || sv.HoTen.Contains(tuKhoa));
+
+            // Nếu lúc này đang tick "Sinh viên nợ" thì kết hợp tìm "Những người tên đó MÀ còn nợ tiền"
+            if (timNguoiNo)
+            {
+                query = query.Where(sv => sv.Phong != null && (sv.Phong.Gia + sv.Phong.TienDienNuoc) > 0);
+            }
+
+            var ketQua = query.OrderBy(sv => sv.HoTen).ToList();
+            dataGridView.DataSource = ketQua;
+
+            // Nếu tìm không ra ai
+            if (ketQua.Count == 0)
+            {
+                MessageBox.Show("Không tìm thấy sinh viên nào khớp với điều kiện!", "Kết quả tìm kiếm", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void cobtimkiem_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cobtimkiem.SelectedItem == null) return;
+
+            string phongChon = cobtimkiem.Text;
+
+            if (phongChon == "Tất cả các phòng")
+            {
+                LoadData(); // Nếu chọn "Tất cả" thì gọi lại hàm load toàn bộ
+            }
+            else
+            {
+                // Lọc ra sinh viên của phòng được chọn
+                var listTheoPhong = context.SinhViens
+                    .Where(sv => sv.MaPhong == phongChon)
+                    .OrderBy(sv => sv.HoTen).ToList();
+                dataGridView.DataSource = listTheoPhong;
+            }
+
+
+        }
+
+        private void checkSVno_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkSVno.Checked)
+            {
+                // Khi tick vào -> Hiện tất cả sinh viên còn nợ tiền
+                var listNo = context.SinhViens
+                    .Where(sv => sv.Phong != null && (sv.Phong.Gia + sv.Phong.TienDienNuoc) > 0)
+                    .OrderBy(sv => sv.HoTen).ToList();
+                dataGridView.DataSource = listNo;
+            }
+            else
+            {
+                // Khi bỏ tick -> Load lại toàn bộ danh sách ban đầu
+                LoadData();
             }
         }
     }

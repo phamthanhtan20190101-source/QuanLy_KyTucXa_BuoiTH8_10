@@ -39,8 +39,15 @@
             label1 = new Label();
             txtmssv = new TextBox();
             dataGridView = new DataGridView();
+            MSSV = new DataGridViewTextBoxColumn();
+            HoTen = new DataGridViewTextBoxColumn();
+            Lop = new DataGridViewTextBoxColumn();
+            SDT = new DataGridViewTextBoxColumn();
+            NgayVao = new DataGridViewTextBoxColumn();
+            MaPhong = new DataGridViewTextBoxColumn();
             groupBox2 = new GroupBox();
             groupBox1 = new GroupBox();
+            checkSVno = new CheckBox();
             label4 = new Label();
             txtTienNo = new TextBox();
             btnLichSu = new Button();
@@ -48,17 +55,11 @@
             label3 = new Label();
             checkedList_DongTien = new CheckedListBox();
             label2 = new Label();
-            textBox2 = new TextBox();
-            comboBox1 = new ComboBox();
+            textsotiennhan = new TextBox();
+            cobtimkiem = new ComboBox();
             btnTimKiem = new Button();
-            textBox1 = new TextBox();
+            txttimkiem = new TextBox();
             label10 = new Label();
-            MSSV = new DataGridViewTextBoxColumn();
-            HoTen = new DataGridViewTextBoxColumn();
-            Lop = new DataGridViewTextBoxColumn();
-            SDT = new DataGridViewTextBoxColumn();
-            NgayVao = new DataGridViewTextBoxColumn();
-            MaPhong = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dataGridView).BeginInit();
             groupBox2.SuspendLayout();
             groupBox1.SuspendLayout();
@@ -153,6 +154,44 @@
             dataGridView.TabIndex = 0;
             dataGridView.CellClick += dataGridView_CellClick;
             // 
+            // MSSV
+            // 
+            MSSV.HeaderText = "Mã Số Sinh Viên";
+            MSSV.MinimumWidth = 8;
+            MSSV.Name = "MSSV";
+            // 
+            // HoTen
+            // 
+            HoTen.HeaderText = "Họ Tên";
+            HoTen.MinimumWidth = 8;
+            HoTen.Name = "HoTen";
+            // 
+            // Lop
+            // 
+            Lop.HeaderText = "Lớp";
+            Lop.MinimumWidth = 8;
+            Lop.Name = "Lop";
+            // 
+            // SDT
+            // 
+            SDT.HeaderText = "Số Điện Thoại";
+            SDT.MinimumWidth = 8;
+            SDT.Name = "SDT";
+            // 
+            // NgayVao
+            // 
+            dataGridViewCellStyle1.Format = "dd/MM/yyyy";
+            NgayVao.DefaultCellStyle = dataGridViewCellStyle1;
+            NgayVao.HeaderText = "Ngày Vào";
+            NgayVao.MinimumWidth = 8;
+            NgayVao.Name = "NgayVao";
+            // 
+            // MaPhong
+            // 
+            MaPhong.HeaderText = "Mã Phòng";
+            MaPhong.MinimumWidth = 8;
+            MaPhong.Name = "MaPhong";
+            // 
             // groupBox2
             // 
             groupBox2.Controls.Add(dataGridView);
@@ -165,6 +204,7 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(checkSVno);
             groupBox1.Controls.Add(label4);
             groupBox1.Controls.Add(txtTienNo);
             groupBox1.Controls.Add(btnLichSu);
@@ -172,10 +212,10 @@
             groupBox1.Controls.Add(label3);
             groupBox1.Controls.Add(checkedList_DongTien);
             groupBox1.Controls.Add(label2);
-            groupBox1.Controls.Add(textBox2);
-            groupBox1.Controls.Add(comboBox1);
+            groupBox1.Controls.Add(textsotiennhan);
+            groupBox1.Controls.Add(cobtimkiem);
             groupBox1.Controls.Add(btnTimKiem);
-            groupBox1.Controls.Add(textBox1);
+            groupBox1.Controls.Add(txttimkiem);
             groupBox1.Controls.Add(label10);
             groupBox1.Controls.Add(txthoten);
             groupBox1.Controls.Add(label8);
@@ -192,6 +232,17 @@
             groupBox1.TabIndex = 8;
             groupBox1.TabStop = false;
             groupBox1.Text = "Thông tin sinh viên";
+            // 
+            // checkSVno
+            // 
+            checkSVno.AutoSize = true;
+            checkSVno.Location = new Point(509, 235);
+            checkSVno.Name = "checkSVno";
+            checkSVno.Size = new Size(169, 29);
+            checkSVno.TabIndex = 38;
+            checkSVno.Text = "Sinh viên còn nợ";
+            checkSVno.UseVisualStyleBackColor = true;
+            checkSVno.CheckedChanged += checkSVno_CheckedChanged;
             // 
             // label4
             // 
@@ -254,20 +305,21 @@
             label2.TabIndex = 27;
             label2.Text = "Số tiền đã nhận :";
             // 
-            // textBox2
+            // textsotiennhan
             // 
-            textBox2.Location = new Point(560, 40);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(286, 31);
-            textBox2.TabIndex = 26;
+            textsotiennhan.Location = new Point(560, 40);
+            textsotiennhan.Name = "textsotiennhan";
+            textsotiennhan.Size = new Size(286, 31);
+            textsotiennhan.TabIndex = 26;
             // 
-            // comboBox1
+            // cobtimkiem
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(849, 235);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(285, 33);
-            comboBox1.TabIndex = 25;
+            cobtimkiem.FormattingEnabled = true;
+            cobtimkiem.Location = new Point(849, 235);
+            cobtimkiem.Name = "cobtimkiem";
+            cobtimkiem.Size = new Size(285, 33);
+            cobtimkiem.TabIndex = 25;
+            cobtimkiem.SelectedIndexChanged += cobtimkiem_SelectedIndexChanged;
             // 
             // btnTimKiem
             // 
@@ -277,13 +329,14 @@
             btnTimKiem.TabIndex = 24;
             btnTimKiem.Text = "Tìm kiếm";
             btnTimKiem.UseVisualStyleBackColor = true;
+            btnTimKiem.Click += btnTimKiem_Click;
             // 
-            // textBox1
+            // txttimkiem
             // 
-            textBox1.Location = new Point(109, 237);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(581, 31);
-            textBox1.TabIndex = 23;
+            txttimkiem.Location = new Point(109, 237);
+            txttimkiem.Name = "txttimkiem";
+            txttimkiem.Size = new Size(382, 31);
+            txttimkiem.TabIndex = 23;
             // 
             // label10
             // 
@@ -293,44 +346,6 @@
             label10.Size = new Size(93, 25);
             label10.TabIndex = 22;
             label10.Text = "Tìm kiếm :";
-            // 
-            // MSSV
-            // 
-            MSSV.HeaderText = "Mã Số Sinh Viên";
-            MSSV.MinimumWidth = 8;
-            MSSV.Name = "MSSV";
-            // 
-            // HoTen
-            // 
-            HoTen.HeaderText = "Họ Tên";
-            HoTen.MinimumWidth = 8;
-            HoTen.Name = "HoTen";
-            // 
-            // Lop
-            // 
-            Lop.HeaderText = "Lớp";
-            Lop.MinimumWidth = 8;
-            Lop.Name = "Lop";
-            // 
-            // SDT
-            // 
-            SDT.HeaderText = "Số Điện Thoại";
-            SDT.MinimumWidth = 8;
-            SDT.Name = "SDT";
-            // 
-            // NgayVao
-            // 
-            dataGridViewCellStyle1.Format = "dd/MM/yyyy";
-            NgayVao.DefaultCellStyle = dataGridViewCellStyle1;
-            NgayVao.HeaderText = "Ngày Vào";
-            NgayVao.MinimumWidth = 8;
-            NgayVao.Name = "NgayVao";
-            // 
-            // MaPhong
-            // 
-            MaPhong.HeaderText = "Mã Phòng";
-            MaPhong.MinimumWidth = 8;
-            MaPhong.Name = "MaPhong";
             // 
             // CapNhatDongTien
             // 
@@ -363,10 +378,10 @@
         private GroupBox groupBox2;
         private GroupBox groupBox1;
         private Label label2;
-        private TextBox textBox2;
-        private ComboBox comboBox1;
+        private TextBox textsotiennhan;
+        private ComboBox cobtimkiem;
         private Button btnTimKiem;
-        private TextBox textBox1;
+        private TextBox txttimkiem;
         private Label label10;
         private Label label3;
         private CheckedListBox checkedList_DongTien;
@@ -380,5 +395,6 @@
         private DataGridViewTextBoxColumn SDT;
         private DataGridViewTextBoxColumn NgayVao;
         private DataGridViewTextBoxColumn MaPhong;
+        private CheckBox checkSVno;
     }
 }

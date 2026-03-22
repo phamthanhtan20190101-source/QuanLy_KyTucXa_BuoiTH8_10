@@ -37,8 +37,11 @@ namespace QuanLy_KyTucXa.Data
         [StringLength(200)]
         public string QueQuan { get; set; }
 
+        [System.ComponentModel.DataAnnotations.StringLength(50)]
+        public string TrangThaiTienPhong { get; set; } = "Chưa đóng";
         // 9. Mã Phòng (Khóa ngoại)
-        
+
+
         public string MaPhong { get; set; }
 
         // Thiết lập liên kết (Foreign Key)

@@ -28,16 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             dataGridView = new DataGridView();
-            MSSV = new DataGridViewTextBoxColumn();
-            HoTen = new DataGridViewTextBoxColumn();
-            Lop = new DataGridViewTextBoxColumn();
-            QueQuan = new DataGridViewTextBoxColumn();
-            SDT = new DataGridViewTextBoxColumn();
-            NgaySinh = new DataGridViewTextBoxColumn();
-            GioiTinh = new DataGridViewTextBoxColumn();
-            NgayVao = new DataGridViewTextBoxColumn();
-            MaPhong = new DataGridViewTextBoxColumn();
             btnThoat = new Button();
             groupBox2 = new GroupBox();
             groupBox1 = new GroupBox();
@@ -65,6 +58,15 @@
             btnThem = new Button();
             label1 = new Label();
             txtmssv = new TextBox();
+            MSSV = new DataGridViewTextBoxColumn();
+            HoTen = new DataGridViewTextBoxColumn();
+            Lop = new DataGridViewTextBoxColumn();
+            QueQuan = new DataGridViewTextBoxColumn();
+            SDT = new DataGridViewTextBoxColumn();
+            NgaySinh = new DataGridViewTextBoxColumn();
+            GioiTinh = new DataGridViewTextBoxColumn();
+            NgayVao = new DataGridViewTextBoxColumn();
+            MaPhong = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dataGridView).BeginInit();
             groupBox2.SuspendLayout();
             groupBox1.SuspendLayout();
@@ -85,69 +87,6 @@
             dataGridView.Size = new Size(1311, 524);
             dataGridView.TabIndex = 0;
             dataGridView.CellClick += dataGridView_CellClick;
-            // 
-            // MSSV
-            // 
-            MSSV.DataPropertyName = "MSSV";
-            MSSV.HeaderText = "Mã Số Sinh Viên";
-            MSSV.MinimumWidth = 8;
-            MSSV.Name = "MSSV";
-            // 
-            // HoTen
-            // 
-            HoTen.DataPropertyName = "HoTen";
-            HoTen.HeaderText = "Họ Tên";
-            HoTen.MinimumWidth = 8;
-            HoTen.Name = "HoTen";
-            // 
-            // Lop
-            // 
-            Lop.DataPropertyName = "Lop";
-            Lop.HeaderText = "Lớp";
-            Lop.MinimumWidth = 8;
-            Lop.Name = "Lop";
-            // 
-            // QueQuan
-            // 
-            QueQuan.DataPropertyName = "QueQuan";
-            QueQuan.HeaderText = "Quê Quán";
-            QueQuan.MinimumWidth = 8;
-            QueQuan.Name = "QueQuan";
-            // 
-            // SDT
-            // 
-            SDT.DataPropertyName = "SDT";
-            SDT.HeaderText = "Số Điện Thoại";
-            SDT.MinimumWidth = 8;
-            SDT.Name = "SDT";
-            // 
-            // NgaySinh
-            // 
-            NgaySinh.DataPropertyName = "NgaySinh";
-            NgaySinh.HeaderText = "Ngày Sinh";
-            NgaySinh.MinimumWidth = 8;
-            NgaySinh.Name = "NgaySinh";
-            // 
-            // GioiTinh
-            // 
-            GioiTinh.DataPropertyName = "GioiTinh";
-            GioiTinh.HeaderText = "Giới Tính";
-            GioiTinh.MinimumWidth = 8;
-            GioiTinh.Name = "GioiTinh";
-            // 
-            // NgayVao
-            // 
-            NgayVao.DataPropertyName = "NgayVao";
-            NgayVao.HeaderText = "Ngày Vào";
-            NgayVao.MinimumWidth = 8;
-            NgayVao.Name = "NgayVao";
-            // 
-            // MaPhong
-            // 
-            MaPhong.DataPropertyName = "MaPhong";
-            MaPhong.HeaderText = "Mã Phòng";
-            MaPhong.MinimumWidth = 8;
-            MaPhong.Name = "MaPhong";
             // 
             // btnThoat
             // 
@@ -418,6 +357,73 @@
             txtmssv.Name = "txtmssv";
             txtmssv.Size = new Size(286, 31);
             txtmssv.TabIndex = 2;
+            // 
+            // MSSV
+            // 
+            MSSV.DataPropertyName = "MSSV";
+            MSSV.HeaderText = "Mã Số Sinh Viên";
+            MSSV.MinimumWidth = 8;
+            MSSV.Name = "MSSV";
+            // 
+            // HoTen
+            // 
+            HoTen.DataPropertyName = "HoTen";
+            HoTen.HeaderText = "Họ Tên";
+            HoTen.MinimumWidth = 8;
+            HoTen.Name = "HoTen";
+            // 
+            // Lop
+            // 
+            Lop.DataPropertyName = "Lop";
+            Lop.HeaderText = "Lớp";
+            Lop.MinimumWidth = 8;
+            Lop.Name = "Lop";
+            // 
+            // QueQuan
+            // 
+            QueQuan.DataPropertyName = "QueQuan";
+            QueQuan.HeaderText = "Quê Quán";
+            QueQuan.MinimumWidth = 8;
+            QueQuan.Name = "QueQuan";
+            // 
+            // SDT
+            // 
+            SDT.DataPropertyName = "SDT";
+            SDT.HeaderText = "Số Điện Thoại";
+            SDT.MinimumWidth = 8;
+            SDT.Name = "SDT";
+            // 
+            // NgaySinh
+            // 
+            NgaySinh.DataPropertyName = "NgaySinh";
+            dataGridViewCellStyle1.Format = "dd/MM/yyyy";
+            NgaySinh.DefaultCellStyle = dataGridViewCellStyle1;
+            NgaySinh.HeaderText = "Ngày Sinh";
+            NgaySinh.MinimumWidth = 8;
+            NgaySinh.Name = "NgaySinh";
+            // 
+            // GioiTinh
+            // 
+            GioiTinh.DataPropertyName = "GioiTinh";
+            GioiTinh.HeaderText = "Giới Tính";
+            GioiTinh.MinimumWidth = 8;
+            GioiTinh.Name = "GioiTinh";
+            // 
+            // NgayVao
+            // 
+            NgayVao.DataPropertyName = "NgayVao";
+            dataGridViewCellStyle2.Format = "dd/MM/yyyy";
+            NgayVao.DefaultCellStyle = dataGridViewCellStyle2;
+            NgayVao.HeaderText = "Ngày Vào";
+            NgayVao.MinimumWidth = 8;
+            NgayVao.Name = "NgayVao";
+            // 
+            // MaPhong
+            // 
+            MaPhong.DataPropertyName = "MaPhong";
+            MaPhong.HeaderText = "Mã Phòng";
+            MaPhong.MinimumWidth = 8;
+            MaPhong.Name = "MaPhong";
             // 
             // frmThemSinhVien
             // 
