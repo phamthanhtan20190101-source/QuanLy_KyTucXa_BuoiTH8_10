@@ -37,7 +37,7 @@
             ClientSize = new Size(800, 450);
             Name = "frmHuongDan";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "frmHuongDan";
+            Text = "Hướng dẫn sử dụng";
             ResumeLayout(false);
         }
 

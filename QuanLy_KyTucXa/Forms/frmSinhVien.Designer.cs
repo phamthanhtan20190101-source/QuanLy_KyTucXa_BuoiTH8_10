@@ -298,7 +298,7 @@
             Controls.Add(groupBox1);
             Name = "frmSinhVien";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "frmSinhVien";
+            Text = "Thông tin sinh viên";
             Load += frmSinhVien_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();

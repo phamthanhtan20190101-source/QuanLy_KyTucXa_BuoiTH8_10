@@ -37,7 +37,7 @@
             ClientSize = new Size(800, 450);
             Name = "frmLienHe";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "frmLienHe";
+            Text = "Liên hệ";
             ResumeLayout(false);
         }
 

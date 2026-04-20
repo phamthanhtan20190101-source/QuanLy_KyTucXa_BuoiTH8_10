@@ -466,7 +466,7 @@
             Controls.Add(groupBox1);
             Name = "frmToaNha";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "frmToaNha";
+            Text = "Tòa nhà";
             Load += frmToaNha_Load;
             groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridViewToaA).EndInit();

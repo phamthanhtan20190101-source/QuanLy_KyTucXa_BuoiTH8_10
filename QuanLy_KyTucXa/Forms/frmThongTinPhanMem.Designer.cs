@@ -37,7 +37,7 @@
             ClientSize = new Size(800, 450);
             Name = "frmThongTinPhanMem";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "frmThongTinPhanMem";
+            Text = "Thông tin phần mềm";
             ResumeLayout(false);
         }
 

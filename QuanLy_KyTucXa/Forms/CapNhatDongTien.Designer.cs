@@ -363,7 +363,7 @@
             Controls.Add(groupBox1);
             Name = "CapNhatDongTien";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "CapNhatDongTien";
+            Text = "Cập nhật trạng thái tiền phòng";
             Load += CapNhatDongTien_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView).EndInit();
             groupBox2.ResumeLayout(false);

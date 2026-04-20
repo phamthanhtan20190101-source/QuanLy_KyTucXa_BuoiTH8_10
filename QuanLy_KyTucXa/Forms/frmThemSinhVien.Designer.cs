@@ -435,7 +435,7 @@
             Controls.Add(groupBox1);
             Name = "frmThemSinhVien";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "frmThêmSinhViên";
+            Text = "Thêm sinh viên";
             Load += frmThemSinhVien_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView).EndInit();
             groupBox2.ResumeLayout(false);

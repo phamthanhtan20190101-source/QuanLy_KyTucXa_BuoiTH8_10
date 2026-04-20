@@ -131,7 +131,7 @@
             MinimizeBox = false;
             Name = "frmDangNhap";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "frmDangNhap";
+            Text = "Đăng nhập";
             Load += frmDangNhap_Load;
             ResumeLayout(false);
             PerformLayout();
