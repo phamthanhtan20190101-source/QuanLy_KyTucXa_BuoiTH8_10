@@ -134,6 +134,13 @@ namespace QuanLy_KyTucXa.Forms
             // 2. Hỏi lại để tránh xóa nhầm
             if (MessageBox.Show($"Bạn có chắc chắn muốn xóa vĩnh viễn phòng {currentMaPhong}?", "Xác nhận xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
+                // MỞ FORM XÁC NHẬN MẬT KHẨU
+                frmXacNhanMatKhau frmBaoMat = new frmXacNhanMatKhau();
+                if (frmBaoMat.ShowDialog() != DialogResult.OK)
+                {
+                    return; // Bị văng ra ngay lập tức nếu nhập sai mật khẩu hoặc bấm Hủy
+                }
+
                 try
                 {
                     var p = context.Phongs.Find(currentMaPhong);

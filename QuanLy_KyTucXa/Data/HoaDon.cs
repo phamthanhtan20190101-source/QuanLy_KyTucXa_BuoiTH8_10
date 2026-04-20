@@ -12,8 +12,8 @@ namespace QuanLy_KyTucXa.Data
 
         // --- THÔNG TIN ĐỐI TƯỢNG ---
         // Sinh viên
-        [Required]
-        public string MSSV { get; set; }
+        
+        public string? MSSV { get; set; }
         [ForeignKey("MSSV")]
         public virtual SinhVien SinhVien { get; set; }
 

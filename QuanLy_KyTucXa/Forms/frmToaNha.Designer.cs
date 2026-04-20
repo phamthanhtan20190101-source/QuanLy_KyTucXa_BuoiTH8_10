@@ -465,6 +465,7 @@
             Controls.Add(groupBox3);
             Controls.Add(groupBox1);
             Name = "frmToaNha";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "frmToaNha";
             Load += frmToaNha_Load;
             groupBox1.ResumeLayout(false);

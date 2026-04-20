@@ -174,40 +174,65 @@ namespace QuanLy_KyTucXa.Forms
                 return;
             }
 
-            if (MessageBox.Show("Bạn có chắc chắn muốn xóa sinh viên " + txthoten.Text + " và toàn bộ tài khoản đăng nhập của sinh viên này?", "Xác nhận xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show("Bạn có chắc chắn muốn xóa sinh viên " + txthoten.Text + " và tài khoản đăng nhập của sinh viên này?\n(Các hóa đơn và lịch sử đóng tiền cũ sẽ được giữ lại trên hệ thống)", "Xác nhận xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
+                // === BẮT ĐẦU CHỐT BẢO MẬT ===
+                frmXacNhanMatKhau frmBaoMat = new frmXacNhanMatKhau();
+                if (frmBaoMat.ShowDialog() != DialogResult.OK)
+                {
+                    return; // Nhập sai pass hoặc bấm Hủy thì văng ra luôn
+                }
+                // === KẾT THÚC CHỐT BẢO MẬT ===
+
                 try
                 {
-                    // 1. Tìm sinh viên cần xóa
-                    var sv = context.SinhViens.Find(currentMSSV);
+                    // 1. TÌM VÀ NGẮT KẾT NỐI HÓA ĐƠN
+                    var listHoaDon = context.HoaDons.Where(h => h.MSSV == currentMSSV).ToList();
+                    foreach (var hd in listHoaDon)
+                    {
+                        hd.MSSV = null; // Gỡ mã SV khỏi hóa đơn (Hóa đơn trở thành vô danh)
+                    }
 
-                    // 2. Tìm tài khoản tương ứng (Tên tài khoản chính là MSSV)
+                    // 2. TÌM VÀ NGẮT KẾT NỐI LỊCH SỬ ĐÓNG TIỀN
+                    var listLichSu = context.LichSuDongTiens.Where(l => l.MSSV == currentMSSV).ToList();
+                    foreach (var ls in listLichSu)
+                    {
+                        ls.MSSV = null;
+                    }
+
+                    // 3. XÓA TÀI KHOẢN ĐĂNG NHẬP
                     var tk = context.TaiKhoans.FirstOrDefault(t => t.TenTaiKhoan == currentMSSV);
+                    if (tk != null)
+                    {
+                        context.TaiKhoans.Remove(tk);
+                    }
 
+                    // 4. TRỪ SỐ LƯỢNG PHÒNG VÀ XÓA SINH VIÊN
+                    var sv = context.SinhViens.Find(currentMSSV);
                     if (sv != null)
                     {
-                        // Xóa tài khoản trước (nếu tìm thấy)
-                        if (tk != null)
+                        // Nếu sinh viên đang ở trong phòng, phải trả lại 1 chỗ trống cho phòng đó
+                        if (!string.IsNullOrEmpty(sv.MaPhong))
                         {
-                            context.TaiKhoans.Remove(tk);
+                            var p = context.Phongs.Find(sv.MaPhong);
+                            if (p != null && p.SoLuongDangO > 0) p.SoLuongDangO -= 1;
                         }
 
-                        // Sau đó xóa sinh viên
                         context.SinhViens.Remove(sv);
-
-                        // Lưu cả 2 thao tác xuống CSDL cùng một lúc
-                        context.SaveChanges();
-
-                        SystemLog.GhiNhatKy("Xóa sinh viên", $"Đã xóa sinh viên {currentMSSV} khỏi hệ thống");
-
-                        MessageBox.Show("Đã xóa sinh viên và tài khoản thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        ResetForm();
                     }
+
+                    // 5. LƯU TOÀN BỘ THAY ĐỔI
+                    context.SaveChanges();
+
+                    // Ghi lại nhật ký hệ thống
+                    SystemLog.GhiNhatKy("Xóa sinh viên", $"Đã xóa sinh viên {currentMSSV} nhưng giữ lại dữ liệu tài chính.");
+
+                    MessageBox.Show("Đã xóa sinh viên và tài khoản thành công!\nDữ liệu tài chính vẫn được bảo toàn.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ResetForm();
                 }
                 catch (Exception ex)
                 {
-                    // Bắt lỗi trong trường hợp SV này đã đóng tiền, có hóa đơn... thì SQL sẽ chặn không cho xóa
-                    MessageBox.Show("Không thể xóa sinh viên này vì đang có dữ liệu liên quan (Lịch sử đóng tiền, Hóa đơn...)\n\nChi tiết: " + ex.Message, "Lỗi xóa dữ liệu", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Lỗi: Không thể ngắt kết nối hóa đơn. Vui lòng làm theo hướng dẫn sau:\n1. Mở file HoaDon.cs và LichSuDongTien.cs trong thư mục Data.\n2. Thêm dấu chấm hỏi (?) vào sau chữ string ở cột MSSV (public string? MSSV { get; set; }).\n\nChi tiết lỗi: " + ex.Message, "Lỗi CSDL", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }

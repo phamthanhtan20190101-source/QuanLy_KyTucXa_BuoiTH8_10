@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             txthoten = new TextBox();
             label8 = new Label();
             txtlop = new TextBox();
@@ -186,8 +186,8 @@
             // 
             // NgayVao
             // 
-            dataGridViewCellStyle2.Format = "dd/MM/yyyy";
-            NgayVao.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Format = "dd/MM/yyyy";
+            NgayVao.DefaultCellStyle = dataGridViewCellStyle1;
             NgayVao.HeaderText = "Ngày Vào";
             NgayVao.MinimumWidth = 8;
             NgayVao.Name = "NgayVao";
@@ -362,6 +362,7 @@
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             Name = "CapNhatDongTien";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "CapNhatDongTien";
             Load += CapNhatDongTien_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView).EndInit();

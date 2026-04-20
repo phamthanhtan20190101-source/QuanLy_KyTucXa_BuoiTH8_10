@@ -235,6 +235,13 @@ namespace QuanLy_KyTucXa.Forms
                 return;
             }
 
+            // MỞ FORM XÁC NHẬN MẬT KHẨU
+            frmXacNhanMatKhau frmBaoMat = new frmXacNhanMatKhau();
+            if (frmBaoMat.ShowDialog() != DialogResult.OK)
+            {
+                return; // Bị văng ra ngay lập tức nếu nhập sai mật khẩu hoặc bấm Hủy
+            }
+
             try
             {
                 // 2. TẠO MÃ VÀ CHIA TIỀN

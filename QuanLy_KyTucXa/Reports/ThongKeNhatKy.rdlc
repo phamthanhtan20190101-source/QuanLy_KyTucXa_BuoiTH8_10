@@ -269,7 +269,7 @@
                             <TextRun>
                               <Value>=Fields!ThoiGian.Value</Value>
                               <Style>
-                                <Format>d</Format>
+                                <Format>g</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -288,6 +288,7 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -377,7 +378,7 @@
         <Top>2.54564cm</Top>
         <Left>0.3175cm</Left>
         <Height>1.2cm</Height>
-        <Width>14.81069cm</Width>
+        <Width>14.8107cm</Width>
         <Style>
           <Border>
             <Style>None</Style>

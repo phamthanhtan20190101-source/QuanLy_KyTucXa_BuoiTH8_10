@@ -21,6 +21,8 @@ namespace QuanLy_KyTucXa.Forms
         frmSinhVien formThongTinCaNhan = null;
         QuanLy_KyTucXa.Reports.frmThongKeHoaDon formThongKeHoaDon = null;
 
+        private Form formHienTai = null;
+
         public frmMain()
         {
             InitializeComponent();
@@ -64,17 +66,27 @@ namespace QuanLy_KyTucXa.Forms
             // 3. Phân quyền menu và dán tên lên StatusStrip
             if (QuyenHienTai == "QuanLy")
             {
+                // Của Quản lý: Hiện VÀ Mở khóa chức năng quản lý
+                quảnLýToolStripMenuItem.Visible = true;
                 quảnLýToolStripMenuItem.Enabled = true;
+
+                báoCáoThốngKêToolStripMenuItem.Visible = true;
                 báoCáoThốngKêToolStripMenuItem.Enabled = true;
-                thôngTinSinhViênToolStripMenuItem.Enabled = true;
+
+                // Ẩn thông tin sinh viên
+                thôngTinSinhViênToolStripMenuItem.Visible = false;
 
                 lblTrangThai.Text = "Quyền: Quản lý | Tài khoản: " + tenHienThi;
             }
             else if (QuyenHienTai == "SinhVien")
             {
-                quảnLýToolStripMenuItem.Enabled = false;
-                báoCáoThốngKêToolStripMenuItem.Enabled = false;
-                thôngTinSinhViênToolStripMenuItem.Enabled = true;
+                // Của Sinh viên: Ẩn chức năng quản lý
+                quảnLýToolStripMenuItem.Visible = false;
+                báoCáoThốngKêToolStripMenuItem.Visible = false;
+
+                // Hiện VÀ Mở khóa thông tin sinh viên
+                thôngTinSinhViênToolStripMenuItem.Visible = true;
+                thôngTinSinhViênToolStripMenuItem.Enabled = true; // Mở khóa
 
                 lblTrangThai.Text = "Quyền: Sinh viên | Tài khoản: " + tenHienThi;
             }
@@ -233,6 +245,39 @@ namespace QuanLy_KyTucXa.Forms
             {
                 MessageBox.Show("Chức năng này chỉ dành riêng cho Ban quản lý!", "Cảnh báo bảo mật", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+        }
+
+        private void mnuHuongDanSuDung_Click(object sender, EventArgs e)
+        {
+            MoFormCon(new frmHuongDan());
+        }
+
+        private void MoFormCon(Form formCon)
+        {
+            // Nếu đang có Form nào mở, hãy đóng nó đi để dọn dẹp bộ nhớ
+            if (formHienTai != null)
+            {
+                formHienTai.Close();
+                formHienTai.Dispose();
+            }
+
+            formHienTai = formCon;
+            formCon.MdiParent = this; // Đưa vào làm con của Form Main
+            formCon.FormBorderStyle = FormBorderStyle.None; // Bỏ khung để nhìn mượt hơn
+            formCon.Dock = DockStyle.Fill; // Tràn đầy màn hình Main
+            formCon.Show();
+        }
+
+        private void mnuThongTinPhanMen_Click(object sender, EventArgs e)
+        {
+            frmThongTinPhanMem frm = new frmThongTinPhanMem();
+            frm.ShowDialog();
+        }
+
+        private void mnuLienHe_Click(object sender, EventArgs e)
+        {
+            frmLienHe frm = new frmLienHe();
+            frm.ShowDialog();
         }
     }
 }

@@ -30,13 +30,16 @@ namespace QuanLy_KyTucXa.Forms
         {
             try
             {
-                // Tìm sinh viên trong Database dựa vào MSSV
+                // 1. Lấy MSSV từ người dùng đang đăng nhập
                 mssvDangNhap = frmMain.MaNguoiDungHienTai;
-                var sv = context.SinhViens.FirstOrDefault(s => s.MSSV == mssvDangNhap);
+                if (string.IsNullOrEmpty(mssvDangNhap)) return;
+
+                // 2. Truy vấn thông tin sinh viên
+                var sv = context.SinhViens.FirstOrDefault(s => s.MSSV.Trim() == mssvDangNhap.Trim());
 
                 if (sv != null)
                 {
-                    // Gán dữ liệu vào các TextBox (đã được set ReadOnly trong Designer)
+                    // Hiển thị thông tin cá nhân
                     txtmssv.Text = sv.MSSV;
                     txthoten.Text = sv.HoTen;
                     txtlop.Text = sv.Lop;
@@ -44,22 +47,39 @@ namespace QuanLy_KyTucXa.Forms
                     txtquequan.Text = sv.QueQuan;
                     txtgioitinh.Text = sv.GioiTinh;
                     txtmaphong.Text = sv.MaPhong;
+                    txtTienNo.Text = sv.TienNo.ToString("N0") + " VNĐ";
+                    txtngaysinh.Text = sv.NgaySinh.ToString("dd/MM/yyyy");
+                    txtngayvao.Text = sv.NgayVao.ToString("dd/MM/yyyy");
 
-                    // Xử lý Ngày tháng (kiểm tra null để không bị lỗi)
-                    txtngaysinh.Text = sv.NgaySinh != null ? Convert.ToDateTime(sv.NgaySinh).ToString("dd/MM/yyyy") : "";
-                    txtngayvao.Text = sv.NgayVao != null ? Convert.ToDateTime(sv.NgayVao).ToString("dd/MM/yyyy") : "";
+                    // --- PHẦN CẬP NHẬT: THAY MÃ GIAO DỊCH BẰNG MSSV ---
+                    var lichSu = context.LichSuDongTiens
+                        .Where(l => l.MSSV.Trim() == mssvDangNhap.Trim())
+                        .OrderByDescending(l => l.NgayDong)
+                        .Select(l => new {
+                            MSSV = l.MSSV, // Đã đổi l.MaThanhToan thành l.MSSV
+                            Tháng = l.ThangDongTien,
+                            Năm = l.NamDongTien,
+                            Số_Tiền = l.SoTien,
+                            Ngày_Đóng = l.NgayDong
+                        })
+                        .ToList();
 
-                    // Xử lý cột trạng thái (Ví dụ: Nếu có mã phòng thì báo "Đang ở", ngược lại là "Chưa có phòng")
+                    dgvLichSuDongTien.DataSource = null;
+                    dgvLichSuDongTien.DataSource = lichSu;
 
-                }
-                else
-                {
-                    MessageBox.Show("Không tìm thấy dữ liệu của sinh viên này!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    // Định dạng lại giao diện bảng
+                    if (dgvLichSuDongTien.Columns.Count > 0)
+                    {
+                        dgvLichSuDongTien.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                        dgvLichSuDongTien.Columns["Số_Tiền"].DefaultCellStyle.Format = "N0";
+                        dgvLichSuDongTien.Columns["Ngày_Đóng"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm";
+                        dgvLichSuDongTien.Columns["Số_Tiền"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                    }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi kết nối dữ liệu: " + ex.Message);
+                MessageBox.Show("Lỗi: " + ex.Message);
             }
         }
 

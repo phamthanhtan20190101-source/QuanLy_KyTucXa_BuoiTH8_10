@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             dataGridView = new DataGridView();
             MSSV = new DataGridViewTextBoxColumn();
             HoTen = new DataGridViewTextBoxColumn();
@@ -126,8 +126,8 @@
             // NgaySinh
             // 
             NgaySinh.DataPropertyName = "NgaySinh";
-            dataGridViewCellStyle3.Format = "dd/MM/yyyy";
-            NgaySinh.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Format = "dd/MM/yyyy";
+            NgaySinh.DefaultCellStyle = dataGridViewCellStyle1;
             NgaySinh.HeaderText = "Ngày Sinh";
             NgaySinh.MinimumWidth = 8;
             NgaySinh.Name = "NgaySinh";
@@ -142,8 +142,8 @@
             // NgayVao
             // 
             NgayVao.DataPropertyName = "NgayVao";
-            dataGridViewCellStyle4.Format = "dd/MM/yyyy";
-            NgayVao.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.Format = "dd/MM/yyyy";
+            NgayVao.DefaultCellStyle = dataGridViewCellStyle2;
             NgayVao.HeaderText = "Ngày Vào";
             NgayVao.MinimumWidth = 8;
             NgayVao.Name = "NgayVao";
@@ -434,6 +434,7 @@
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             Name = "frmThemSinhVien";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "frmThêmSinhViên";
             Load += frmThemSinhVien_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView).EndInit();

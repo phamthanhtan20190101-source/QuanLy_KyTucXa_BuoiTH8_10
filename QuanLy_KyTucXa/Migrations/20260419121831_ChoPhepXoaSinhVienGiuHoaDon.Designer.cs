@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QuanLy_KyTucXa.Data;
 
@@ -11,9 +12,11 @@ using QuanLy_KyTucXa.Data;
 namespace QuanLy_KyTucXa.Migrations
 {
     [DbContext(typeof(QLKTXDbContext))]
-    partial class QLKTXDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260419121831_ChoPhepXoaSinhVienGiuHoaDon")]
+    partial class ChoPhepXoaSinhVienGiuHoaDon
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -104,7 +107,7 @@ namespace QuanLy_KyTucXa.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("MSSV")
-                        .HasColumnType("nvarchar(20)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("NamDongTien")
                         .HasColumnType("int");
@@ -119,8 +122,6 @@ namespace QuanLy_KyTucXa.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("MaThanhToan");
-
-                    b.HasIndex("MSSV");
 
                     b.ToTable("LichSuDongTiens");
                 });
@@ -361,15 +362,6 @@ namespace QuanLy_KyTucXa.Migrations
                         .IsRequired();
 
                     b.Navigation("QuanLy");
-
-                    b.Navigation("SinhVien");
-                });
-
-            modelBuilder.Entity("QuanLy_KyTucXa.Data.LichSuDongTien", b =>
-                {
-                    b.HasOne("QuanLy_KyTucXa.Data.SinhVien", "SinhVien")
-                        .WithMany()
-                        .HasForeignKey("MSSV");
 
                     b.Navigation("SinhVien");
                 });

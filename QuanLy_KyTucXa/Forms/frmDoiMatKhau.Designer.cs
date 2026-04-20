@@ -27,7 +27,7 @@
             txtXacNhanMK = new TextBox();
             SuspendLayout();
             // 
-            // label3 (Mật khẩu cũ)
+            // label3
             // 
             label3.AutoSize = true;
             label3.Location = new Point(24, 25);
@@ -44,7 +44,7 @@
             txtMatKhauCu.Size = new Size(499, 31);
             txtMatKhauCu.TabIndex = 1;
             // 
-            // label1 (Mật khẩu mới)
+            // label1
             // 
             label1.AutoSize = true;
             label1.Location = new Point(24, 115);
@@ -61,7 +61,27 @@
             txtMatKhauMoi.Size = new Size(499, 31);
             txtMatKhauMoi.TabIndex = 3;
             // 
-            // label2 (Xác nhận)
+            // btnLuu
+            // 
+            btnLuu.Location = new Point(90, 320);
+            btnLuu.Name = "btnLuu";
+            btnLuu.Size = new Size(160, 45);
+            btnLuu.TabIndex = 6;
+            btnLuu.Text = "Lưu thay đổi";
+            btnLuu.UseVisualStyleBackColor = true;
+            btnLuu.Click += btnLuu_Click;
+            // 
+            // btnHuy
+            // 
+            btnHuy.Location = new Point(280, 320);
+            btnHuy.Name = "btnHuy";
+            btnHuy.Size = new Size(140, 45);
+            btnHuy.TabIndex = 7;
+            btnHuy.Text = "Hủy bỏ";
+            btnHuy.UseVisualStyleBackColor = true;
+            btnHuy.Click += btnHuy_Click;
+            // 
+            // label2
             // 
             label2.AutoSize = true;
             label2.Location = new Point(24, 210);
@@ -77,26 +97,6 @@
             txtXacNhanMK.PasswordChar = '*';
             txtXacNhanMK.Size = new Size(499, 31);
             txtXacNhanMK.TabIndex = 5;
-            // 
-            // btnLuu
-            // 
-            btnLuu.Location = new Point(90, 320);
-            btnLuu.Name = "btnLuu";
-            btnLuu.Size = new Size(160, 45);
-            btnLuu.TabIndex = 6;
-            btnLuu.Text = "Lưu thay đổi";
-            btnLuu.UseVisualStyleBackColor = true;
-            btnLuu.Click += new EventHandler(btnLuu_Click); // NỐI SỰ KIỆN
-            // 
-            // btnHuy
-            // 
-            btnHuy.Location = new Point(280, 320);
-            btnHuy.Name = "btnHuy";
-            btnHuy.Size = new Size(140, 45);
-            btnHuy.TabIndex = 7;
-            btnHuy.Text = "Hủy bỏ";
-            btnHuy.UseVisualStyleBackColor = true;
-            btnHuy.Click += new EventHandler(btnHuy_Click); // NỐI SỰ KIỆN
             // 
             // frmDoiMatKhau
             // 
@@ -115,7 +115,7 @@
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "frmDoiMatKhau";
-            StartPosition = FormStartPosition.CenterParent;
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Thay đổi mật khẩu";
             ResumeLayout(false);
             PerformLayout();
