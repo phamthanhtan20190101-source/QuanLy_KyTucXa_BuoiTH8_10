@@ -52,6 +52,7 @@
             label3 = new Label();
             label4 = new Label();
             groupBox5 = new GroupBox();
+            btnXemChiTiet = new Button();
             btnXuat = new Button();
             btnNhap = new Button();
             button1 = new Button();
@@ -277,7 +278,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(17, 187);
+            label3.Location = new Point(17, 156);
             label3.Name = "label3";
             label3.Size = new Size(111, 25);
             label3.TabIndex = 5;
@@ -286,7 +287,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(17, 113);
+            label4.Location = new Point(17, 97);
             label4.Name = "label4";
             label4.Size = new Size(104, 25);
             label4.TabIndex = 7;
@@ -294,6 +295,7 @@
             // 
             // groupBox5
             // 
+            groupBox5.Controls.Add(btnXemChiTiet);
             groupBox5.Controls.Add(btnXuat);
             groupBox5.Controls.Add(btnNhap);
             groupBox5.Controls.Add(button1);
@@ -317,6 +319,16 @@
             groupBox5.TabIndex = 9;
             groupBox5.TabStop = false;
             groupBox5.Text = "Chức năng";
+            // 
+            // btnXemChiTiet
+            // 
+            btnXemChiTiet.Location = new Point(17, 255);
+            btnXemChiTiet.Name = "btnXemChiTiet";
+            btnXemChiTiet.Size = new Size(308, 46);
+            btnXemChiTiet.TabIndex = 26;
+            btnXemChiTiet.Text = "Xem chi tiết phòng";
+            btnXemChiTiet.UseVisualStyleBackColor = true;
+            btnXemChiTiet.Click += btnXemChiTiet_Click;
             // 
             // btnXuat
             // 
@@ -349,14 +361,14 @@
             // 
             // txtMaPhong
             // 
-            txtMaPhong.Location = new Point(143, 113);
+            txtMaPhong.Location = new Point(143, 97);
             txtMaPhong.Name = "txtMaPhong";
             txtMaPhong.Size = new Size(182, 31);
             txtMaPhong.TabIndex = 16;
             // 
             // txtGiaPhong
             // 
-            txtGiaPhong.Location = new Point(143, 252);
+            txtGiaPhong.Location = new Point(143, 214);
             txtGiaPhong.Name = "txtGiaPhong";
             txtGiaPhong.ReadOnly = true;
             txtGiaPhong.Size = new Size(182, 31);
@@ -365,7 +377,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(17, 255);
+            label2.Location = new Point(17, 217);
             label2.Name = "label2";
             label2.Size = new Size(104, 25);
             label2.TabIndex = 13;
@@ -376,7 +388,7 @@
             cobLoaiPhong.Enabled = false;
             cobLoaiPhong.FormattingEnabled = true;
             cobLoaiPhong.Items.AddRange(new object[] { "4 Người ", "6 Người" });
-            cobLoaiPhong.Location = new Point(143, 184);
+            cobLoaiPhong.Location = new Point(143, 153);
             cobLoaiPhong.Name = "cobLoaiPhong";
             cobLoaiPhong.Size = new Size(182, 33);
             cobLoaiPhong.TabIndex = 12;
@@ -521,5 +533,6 @@
         private DataGridViewTextBoxColumn SoLuongDangOC;
         private Button btnXuat;
         private Button btnNhap;
+        private Button btnXemChiTiet;
     }
 }

@@ -572,6 +572,60 @@ namespace QuanLy_KyTucXa.Forms
                 txtGiaPhong.Text = ""; // Nếu chưa chọn hoặc chọn sai thì xóa trắng ô giá
             }
         }
+
+        private void btnXemChiTiet_Click(object sender, EventArgs e)
+        {
+            string maPhong = txtMaPhong.Text.Trim();
+
+            // Kiểm tra nếu chưa chọn phòng nào
+            if (string.IsNullOrEmpty(maPhong))
+            {
+                MessageBox.Show("Vui lòng chọn một phòng từ danh sách để xem chi tiết!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                // 1. Lấy thông tin phòng từ CSDL
+                var phong = context.Phongs.Find(maPhong);
+                if (phong == null)
+                {
+                    MessageBox.Show("Không tìm thấy thông tin phòng này trong hệ thống!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                // 2. Lấy danh sách sinh viên đang ở trong phòng này
+                var dsSinhVien = context.SinhViens.Where(s => s.MaPhong == maPhong).ToList();
+
+                // 3. Xây dựng chuỗi văn bản thông tin chi tiết
+                string thongTin = $"--- THÔNG TIN CHI TIẾT PHÒNG {phong.MaPhong} ---\n\n";
+                thongTin += $"- Thuộc Tòa nhà: Tòa {phong.MaToaNha}\n";
+                thongTin += $"- Sức chứa tối đa: {phong.LoaiPhong} sinh viên\n";
+                thongTin += $"- Đơn giá phòng: {phong.Gia:N0} VNĐ/tháng\n";
+                thongTin += $"- Số người đang ở thực tế: {dsSinhVien.Count}/{phong.LoaiPhong}\n\n";
+
+                // 4. In danh sách sinh viên (nếu có)
+                if (dsSinhVien.Count > 0)
+                {
+                    thongTin += ">> DANH SÁCH SINH VIÊN ĐANG LƯU TRÚ:\n";
+                    foreach (var sv in dsSinhVien)
+                    {
+                        thongTin += $"   + {sv.MSSV} - {sv.HoTen} (Lớp: {sv.Lop})\n";
+                    }
+                }
+                else
+                {
+                    thongTin += ">> PHÒNG NÀY HIỆN ĐANG TRỐNG.";
+                }
+
+                // 5. Hiển thị lên màn hình
+                MessageBox.Show(thongTin, "Chi tiết phòng " + maPhong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi tải chi tiết phòng: " + ex.Message, "Lỗi hệ thống", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 
 }
